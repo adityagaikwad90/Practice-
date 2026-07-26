@@ -1,0 +1,20 @@
+{
+  "name": "react-express-starter",
+  "version": "1.0.0",
+  "description": "Full-stack React (Vite) and Express (Node.js) starter application",
+  "main": "server/index.js",
+  "scripts": {
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "install:all": "npm run install:server && npm run install:client",
+    "start:server": "cd server && node index.js",
+    "start:client": "cd client && npm run dev",
+    "dev": "npx concurrently \"npm run start:server\" \"npm run start:client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["react", "vite", "express", "node", "javascript"],
+  "author": "",
+  "license": "ISC"
+}

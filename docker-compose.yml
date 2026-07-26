@@ -1,0 +1,46 @@
+services:
+  # Reverse Proxy (Public Entry Point)
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: reverse_proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - client
+      - server
+    networks:
+      - app-network
+    restart: always
+
+  # React Frontend Container (Internal)
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: react_frontend
+    expose:
+      - "80"
+    networks:
+      - app-network
+    restart: always
+
+  # Express Backend Container (Internal)
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: express_backend
+    expose:
+      - "5001"
+    environment:
+      - PORT=5001
+      - NODE_ENV=production
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
