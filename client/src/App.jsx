@@ -148,7 +148,7 @@ export default function App() {
             <Layers size={26} />
           </div>
           <div>
-            <h1 className="brand-title">Fullstack Task Hub</h1>
+            <h1 className="brand-title">Aditya Task Hub</h1>
             <p className="brand-subtitle">React (Vite) + Express (Node.js) Starter</p>
           </div>
         </div>
