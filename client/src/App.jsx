@@ -149,7 +149,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="brand-title">Aditya Gaikwad Task</h1>
-            <p className="brand-subtitle">React (Vite) + Express (Node.js) Starter</p>
+            <p className="brand-subtitle">React () + Express (Node.js) Starter</p>
           </div>
         </div>
 
