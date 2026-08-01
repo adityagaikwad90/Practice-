@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -55,11 +56,12 @@ let nextId = 5;
 // Health Check Endpoint
 app.get('/api/health', (req, res) => {
   res.json({
-    status: 'online',
-    message: 'Express Server is running smoothly!',
+    status: "online",
+    app: process.env.APP_NAME,
+    version: process.env.APP_VERSION,
+    environment: process.env.NODE_ENV,
     timestamp: new Date().toISOString(),
-    uptime: `${Math.floor(process.uptime())}s`,
-    environment: process.env.NODE_ENV || 'development'
+    uptime: `${Math.floor(process.uptime())}s`
   });
 });
 
@@ -155,8 +157,11 @@ app.get('/api/stats', (req, res) => {
 
 // Start Server
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Express Server running on http://localhost:${PORT}`);
-  console.log(`📡 Health Check endpoint: http://localhost:${PORT}/api/health`);
+  console.log(`🚀 ${process.env.APP_NAME}`);
+  console.log(`📦 Version: ${process.env.APP_VERSION}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
 });
 
 server.on('error', (err) => {
