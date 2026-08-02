@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
   workflow_dispatch:
 
 jobs:
@@ -12,34 +11,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to EC2
+      - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-
           script: |
-            cd /home/ec2-user/Practice-
+            echo "========== STARTING SOLVESPACE TECH DEPLOYMENT =========="
 
-            echo "========== STARTING DEPLOYMENT =========="
+            # Directory fallback
+            if [ -d "/home/ec2-user/Practice-" ]; then
+              cd /home/ec2-user/Practice-
+            elif [ -d "/home/ubuntu/Practice-" ]; then
+              cd /home/ubuntu/Practice-
+            else
+              cd ~/Practice- || cd .
+            fi
 
-            echo "Current Directory:"
+            echo "Deployment Directory:"
             pwd
 
-            echo "Pull latest code..."
-            git pull origin main
+            echo "Fetching latest changes from Git..."
+            git fetch --all
+            git reset --hard origin/main
 
-            echo "Stopping old containers..."
-            docker compose down
+            echo "Building and restarting Docker containers..."
+            if command -v docker-compose &> /dev/null; then
+              docker-compose down
+              docker-compose up --build -d
+            else
+              docker compose down
+              docker compose up --build -d
+            fi
 
-            echo "Building new containers..."
-            docker compose up --build -d
-
-            echo "Removing unused Docker images..."
+            echo "Pruning unused Docker assets..."
             docker image prune -f
 
-            echo "Running containers:"
+            echo "Verifying running Docker containers:"
             docker ps
 
-            echo "========== DEPLOYMENT COMPLETE =========="
+            echo "========== DEPLOYMENT SUCCESSFUL =========="
