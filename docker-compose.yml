@@ -10,6 +10,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - client
       - server
@@ -43,7 +44,7 @@ services:
       - APP_NAME=SolveSpace Technologies API
       - APP_VERSION=2.0.0
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5001/api/health', (r) => { if (r.statusCode !== 200) process.exit(1); })"]
+      test: [ "CMD", "node", "-e", "require('http').get('http://localhost:5001/api/health', (r) => { if (r.statusCode !== 200) process.exit(1); })" ]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -55,4 +56,3 @@ services:
 networks:
   app-network:
     driver: bridge
-
