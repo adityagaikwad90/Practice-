@@ -870,7 +870,7 @@ export default function App() {
         </div>
 
         <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-slate-900 text-center text-xs text-slate-500">
-          © {new Date().getFullYear()} SolveSpace Technologies. All rights reserved. Powered by Docker & EC2.
+          © {new Date().getFullYear()} SolveSpace Technologies. All rights reserved. Powered by Docker & EC2 & Aditya Gaikwad.
         </div>
       </footer>
     </div>
