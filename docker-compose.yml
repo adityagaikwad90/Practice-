@@ -1,5 +1,5 @@
 services:
-  # Reverse Proxy (Public Entry Point)
+  # Reverse Proxy (Public Entry Point
   nginx:
     build:
       context: ./nginx
