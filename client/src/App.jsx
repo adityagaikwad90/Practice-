@@ -245,50 +245,6 @@ export default function App() {
       </main>
 
       {/* Footer */}
-<<<<<<< HEAD
-      <footer className="bg-slate-950 border-t border-slate-800/80 py-12 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-4 md:col-span-2">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">
-                S
-              </div>
-              <span className="font-bold text-lg text-white">SolveSpace Technologies</span>
-            </div>
-            <p className="text-slate-400 text-xs max-w-md leading-relaxed">
-              Full-service digital engineering startup specializing in Web Development, Android App Development, Cloud Architecture, and Promotional Video Reels.
-            </p>
-            <div className="text-xs font-mono text-indigo-400">Domain: solvespace.online</div>
-          </div>
-
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase text-white tracking-wider">Founders</h4>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li>Aditya Gaikwad – Cloud Solution Provider</li>
-              <li>Mayur Choudhary – Android Developer</li>
-              <li>Manish Mali – Backend Developer</li>
-            </ul>
-          </div>
-
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase text-white tracking-wider">Tech Stack</h4>
-            <div className="flex flex-wrap gap-2 text-[11px] text-slate-300">
-              <span className="px-2 py-1 bg-slate-900 border border-slate-800 rounded">React 18</span>
-              <span className="px-2 py-1 bg-slate-900 border border-slate-800 rounded">Tailwind CSS</span>
-              <span className="px-2 py-1 bg-slate-900 border border-slate-800 rounded">Node / Express</span>
-              <span className="px-2 py-1 bg-slate-900 border border-slate-800 rounded">Docker</span>
-              <span className="px-2 py-1 bg-slate-900 border border-slate-800 rounded">Nginx</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-slate-900 text-center text-xs text-slate-500">
-          © {new Date().getFullYear()} SolveSpace Technologies. All rights reserved. Powered by Docker & EC2 & Aditya Gaikwad.
-        </div>
-      </footer>
-=======
-      <Footer setActiveTab={setActiveTab} />
->>>>>>> 9c7fa30 (upgrade design)
     </div>
   );
 }
