@@ -1,5 +1,5 @@
 import React from 'react';
-import { Send, CheckCircle2, User, Mail as MailIcon, Sparkles } from 'lucide-react';
+import { Send, CheckCircle2, User, Mail as MailIcon, Sparkles, Shield, Clock, Lock } from 'lucide-react';
 import Card from '../ui/Card';
 import Input from '../ui/Input';
 import Select from '../ui/Select';
@@ -26,21 +26,23 @@ export default function ContactView({
   handleSubmitInquiry
 }) {
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8 animate-fade-up">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-8 animate-fade-up">
       {/* Header */}
       <div className="text-center space-y-3">
         <Badge variant="indigo" dot>
           Direct Founder Access
         </Badge>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-heading">Start Your Project</h2>
-        <p className="text-slate-600 text-xs sm:text-sm">
-          Submit your requirements for direct engineering review by Aditya, Mayur, and Manish.
+        <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-heading">
+          Schedule Technical Discovery
+        </h2>
+        <p className="text-slate-600 text-xs sm:text-base max-w-md mx-auto">
+          Submit your project requirements for direct architectural review by Aditya, Mayur, and Manish.
         </p>
       </div>
 
       {/* Success Notification Alert */}
       {submitSuccess && (
-        <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900 space-y-3 animate-fade-up shadow-xs">
+        <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900 space-y-3 animate-fade-up shadow-sm">
           <div className="flex items-center gap-2.5 font-bold text-sm sm:text-base font-heading">
             <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
             <span>Inquiry Received Successfully! (ID: {submitSuccess.id})</span>
@@ -60,7 +62,16 @@ export default function ContactView({
       )}
 
       {/* Project Request Form */}
-      <Card padding="p-6 sm:p-8">
+      <Card padding="p-6 sm:p-10" className="border border-slate-200/90 shadow-xl space-y-6">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-100 text-xs text-slate-500 font-mono">
+          <span className="flex items-center gap-1.5 text-emerald-600 font-semibold">
+            <Clock className="w-4 h-4" /> &lt;24h Response Time
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Lock className="w-3.5 h-3.5 text-slate-400" /> Confidential & NDA Protected
+          </span>
+        </div>
+
         <form onSubmit={handleSubmitInquiry} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <Input
@@ -73,7 +84,7 @@ export default function ContactView({
             />
 
             <Input
-              label="Email Address"
+              label="Work Email Address"
               type="email"
               required
               placeholder="alex@techventures.io"
@@ -119,10 +130,10 @@ export default function ContactView({
           </div>
 
           <Textarea
-            label="Project Requirements"
+            label="Project Specifications & Goals"
             required
             rows={5}
-            placeholder="Describe your project goals, tech stack preferences, target audience, or specific features needed..."
+            placeholder="Tell us about what you want to build, tech requirements, target deadlines, or any existing repositories/Figma links..."
             value={formDetails}
             onChange={(e) => setFormDetails(e.target.value)}
           />
@@ -134,9 +145,9 @@ export default function ContactView({
             loading={formSubmitting}
             icon={Send}
             iconPosition="left"
-            className="w-full"
+            className="w-full shadow-md shadow-indigo-500/20"
           >
-            Send Project Request
+            Send Technical Discovery Request
           </Button>
         </form>
       </Card>
