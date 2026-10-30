@@ -15,14 +15,14 @@ export default function Input({
   return (
     <div className="space-y-1.5 w-full">
       {label && (
-        <label htmlFor={inputId} className="block text-xs font-semibold uppercase tracking-wider text-slate-700 font-mono">
-          {label} {required && <span className="text-rose-500">*</span>}
+        <label htmlFor={inputId} className="block text-xs font-mono uppercase tracking-wider text-[#777777]">
+          {label} {required && <span className="text-rose-600">*</span>}
         </label>
       )}
 
-      <div className="relative rounded-xl overflow-hidden">
+      <div className="relative rounded-md overflow-hidden">
         {Icon && (
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#777777]">
             <Icon className="w-4 h-4" />
           </div>
         )}
@@ -30,15 +30,15 @@ export default function Input({
         <input
           id={inputId}
           required={required}
-          className={`w-full px-4 py-3 text-xs sm:text-sm rounded-xl light-input placeholder-slate-400 ${
-            Icon ? 'pl-10' : ''
-          } ${error ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20' : ''} ${className}`}
+          className={`w-full px-3.5 py-2.5 text-xs sm:text-sm mono-input ${
+            Icon ? 'pl-9' : ''
+          } ${error ? 'border-rose-500' : ''} ${className}`}
           {...props}
         />
       </div>
 
       {error && <p className="text-[11px] text-rose-600 font-medium">{error}</p>}
-      {helperText && !error && <p className="text-[11px] text-slate-500">{helperText}</p>}
+      {helperText && !error && <p className="text-[11px] text-[#777777]">{helperText}</p>}
     </div>
   );
 }

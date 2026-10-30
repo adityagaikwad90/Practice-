@@ -14,22 +14,22 @@ export default function Button({
   ...props
 }) {
   const baseStyles =
-    'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:ring-offset-2 focus:ring-offset-slate-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none select-none';
+    'group inline-flex items-center justify-center font-medium transition-all duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#171717] focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100 select-none';
 
   const sizes = {
-    sm: 'px-3.5 py-1.5 text-xs gap-1.5',
-    md: 'px-5 py-2.5 text-xs sm:text-sm gap-2',
-    lg: 'px-6 py-3 text-sm sm:text-base gap-2.5'
+    sm: 'px-3 py-1.5 text-xs gap-1.5 rounded-[5px]',
+    md: 'px-4 py-2 text-xs sm:text-sm gap-2 rounded-md',
+    lg: 'px-6 py-2.5 text-sm sm:text-base gap-2.5 rounded-md'
   };
 
   const variants = {
-    primary: 'btn-primary-light text-white',
-    secondary: 'btn-secondary-light text-slate-900',
+    primary: 'btn-primary-mono cursor-pointer',
+    secondary: 'btn-secondary-mono cursor-pointer',
     outline:
-      'bg-transparent border border-indigo-600/30 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-600/60',
-    ghost: 'bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100',
+      'bg-transparent border border-[#171717] text-[#171717] hover:bg-[#F7F6F2] cursor-pointer',
+    ghost: 'bg-transparent text-[#777777] hover:text-[#171717] hover:bg-[#F7F6F2] cursor-pointer',
     danger:
-      'bg-rose-600 text-white hover:bg-rose-700 shadow-sm hover:shadow'
+      'bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 cursor-pointer'
   };
 
   return (
@@ -42,7 +42,7 @@ export default function Button({
     >
       {loading ? (
         <svg
-          className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
+          className="animate-spin -ml-0.5 mr-2 h-3.5 w-3.5 text-current"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -62,13 +62,13 @@ export default function Button({
           />
         </svg>
       ) : Icon && iconPosition === 'left' ? (
-        <Icon className="w-4 h-4 shrink-0" />
+        <Icon className="w-3.5 h-3.5 shrink-0" />
       ) : null}
 
       <span>{children}</span>
 
       {!loading && Icon && iconPosition === 'right' && (
-        <Icon className="w-4 h-4 shrink-0" />
+        <Icon className="w-3.5 h-3.5 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
       )}
     </button>
   );

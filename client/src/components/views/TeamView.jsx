@@ -1,121 +1,152 @@
 import React from 'react';
-import { Mail, Github, ArrowUpRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
-import Card from '../ui/Card';
-import Badge from '../ui/Badge';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import Button from '../ui/Button';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
-export default function TeamView({ teamMembers }) {
-  const getBadgeVariant = (id) => {
-    if (id === 'aditya') return 'indigo';
-    if (id === 'mayur') return 'emerald';
-    if (id === 'manish') return 'purple';
-    return 'neutral';
-  };
+export default function TeamView({ setActiveTab }) {
+  useScrollReveal();
 
-  const getGradient = (id) => {
-    if (id === 'aditya') return 'from-indigo-600 to-blue-500';
-    if (id === 'mayur') return 'from-emerald-600 to-teal-500';
-    if (id === 'manish') return 'from-purple-600 to-indigo-600';
-    return 'from-slate-700 to-slate-900';
-  };
+  const founders = [
+    {
+      name: 'Aditya Gaikwad',
+      role: 'Cloud Engineering Lead',
+      bio: 'Architecting high-availability AWS and GCP cloud infrastructure, Docker container clusters, automated CI/CD pipelines, and network security.',
+      email: 'aditya@solvespace.online',
+      github: 'https://github.com/adityagaikwad90'
+    },
+    {
+      name: 'Mayur Choudhary',
+      role: 'Android Solutions Architect',
+      bio: 'Engineering native Android applications with Kotlin, Jetpack Compose, offline-first Room database synchronization, and Play Store releases.',
+      email: 'mayur@solvespace.online',
+      github: 'https://github.com/mayurchoudhary'
+    },
+    {
+      name: 'Manish Mali',
+      role: 'Backend Engineering Lead',
+      bio: 'Designing scalable Node.js and Express REST microservices, database schemas (PostgreSQL / MongoDB), and distributed backend architectures.',
+      email: 'manish@solvespace.online',
+      github: 'https://github.com/manishmali'
+    }
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-12 animate-fade-up">
-      {/* Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
-        <Badge variant="indigo" dot>Engineering Founders & Leadership</Badge>
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-heading">
-          Direct Founder Engineering
-        </h2>
-        <p className="text-slate-600 text-xs sm:text-base leading-relaxed">
-          No intermediaries or outsourcing. You partner directly with the architects who design your cloud infrastructure, native apps, and backend services.
+    <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
+      {/* Editorial Header */}
+      <div className="space-y-6">
+        <span className="eyebrow-minimal block">ABOUT THE STUDIO</span>
+        <h1 className="text-4xl sm:text-6xl font-normal tracking-tight text-[#171717] font-heading leading-tight">
+          We build digital systems that endure.
+        </h1>
+        <p className="text-base sm:text-lg text-[#777777] leading-relaxed max-w-2xl">
+          SolveSpace Technologies was founded on a simple principle: software is built best when the architects designing the system are the ones writing the code. We partner directly with founders and product teams to ship production-ready cloud, web, and mobile software.
         </p>
       </div>
 
-      {/* Founders Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {teamMembers.map((member) => {
-          const badgeVariant = getBadgeVariant(member.id);
-          const gradient = getGradient(member.id);
-          const initials = member.name
-            ? member.name
-                .split(' ')
-                .map((n) => n[0])
-                .join('')
-            : 'SS';
+      {/* Engineering Approach */}
+      <div className="border-t border-[#E7E7E7] pt-16 space-y-10 reveal-init">
+        <div className="space-y-2">
+          <span className="eyebrow-minimal block">APPROACH & VALUES</span>
+          <h2 className="text-2xl sm:text-3xl font-normal text-[#171717] font-heading">
+            How we think about engineering.
+          </h2>
+        </div>
 
-          return (
-            <Card
-              key={member.id}
-              hover
-              padding="p-8"
-              className="flex flex-col justify-between space-y-6 relative overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all"
-            >
-              <div className="space-y-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-tr ${gradient} flex items-center justify-center text-white font-extrabold text-xl shadow-md shrink-0 font-heading`}>
-                      {initials}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <h3 className="text-lg font-bold text-slate-900 tracking-tight font-heading">
-                          {member.name}
-                        </h3>
-                        <ShieldCheck className="w-4 h-4 text-indigo-600" title="Verified Founder" />
-                      </div>
-                      <Badge variant={badgeVariant} size="sm" className="mt-1">
-                        {member.role}
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="border-t border-[#171717] pt-4 space-y-2">
+            <span className="text-xs font-mono font-medium text-[#171717]">01</span>
+            <h3 className="text-base font-medium text-[#171717] font-heading">
+              Direct Founder Execution
+            </h3>
+            <p className="text-xs sm:text-sm text-[#777777] leading-relaxed">
+              No account managers or junior contractors. You collaborate directly with experienced founding engineers.
+            </p>
+          </div>
 
-                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-[11px] font-mono text-slate-600 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <span>Domain Focus: {member.specialty}</span>
-                </div>
+          <div className="border-t border-[#171717] pt-4 space-y-2">
+            <span className="text-xs font-mono font-medium text-[#171717]">02</span>
+            <h3 className="text-base font-medium text-[#171717] font-heading">
+              Full Code Ownership
+            </h3>
+            <p className="text-xs sm:text-sm text-[#777777] leading-relaxed">
+              100% intellectual property transfer. You own the repository, documentation, and cloud accounts completely.
+            </p>
+          </div>
 
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                  {member.bio}
-                </p>
+          <div className="border-t border-[#171717] pt-4 space-y-2">
+            <span className="text-xs font-mono font-medium text-[#171717]">03</span>
+            <h3 className="text-base font-medium text-[#171717] font-heading">
+              Production Velocity
+            </h3>
+            <p className="text-xs sm:text-sm text-[#777777] leading-relaxed">
+              We focus on clean, maintainable software with automated deployments, high test coverage, and zero fluff.
+            </p>
+          </div>
+        </div>
+      </div>
 
-                <div className="space-y-2.5">
-                  <h4 className="text-[11px] font-bold uppercase text-slate-500 tracking-wider font-mono">
-                    Core Technical Stack:
-                  </h4>
-                  <div className="flex flex-wrap gap-1.5">
-                    {member.skills.map((skill, i) => (
-                      <span key={i} className="skill-pill">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+      {/* Founders Section */}
+      <div className="border-t border-[#E7E7E7] pt-16 space-y-10 reveal-init">
+        <div className="space-y-2">
+          <span className="eyebrow-minimal block">LEADERSHIP</span>
+          <h2 className="text-2xl sm:text-3xl font-normal text-[#171717] font-heading">
+            Founding Engineers
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {founders.map((founder, idx) => (
+            <div key={idx} className="reveal-init border-t border-[#E7E7E7] hover:border-[#171717] pt-6 space-y-3 transition-colors duration-300">
+              <div>
+                <h3 className="text-lg font-medium text-[#171717] font-heading">
+                  {founder.name}
+                </h3>
+                <span className="text-xs font-mono text-[#777777] block mt-0.5">
+                  {founder.role}
+                </span>
               </div>
-
-              <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
+              <p className="text-xs sm:text-sm text-[#777777] leading-relaxed">
+                {founder.bio}
+              </p>
+              <div className="pt-2 flex items-center justify-between text-xs font-mono">
                 <a
-                  href={`mailto:${member.email}`}
-                  className="text-xs text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5 font-semibold transition-colors"
+                  href={`mailto:${founder.email}`}
+                  className="text-[#171717] hover:underline"
                 >
-                  <Mail className="w-3.5 h-3.5" />
-                  <span>{member.email}</span>
+                  {founder.email}
                 </a>
-                {member.github && (
-                  <a
-                    href={member.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
-                    aria-label={`${member.name} GitHub profile`}
-                  >
-                    <Github className="w-4 h-4" />
-                  </a>
-                )}
+                <a
+                  href={founder.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[#777777] hover:text-[#171717] inline-flex items-center gap-0.5"
+                >
+                  <span>GitHub</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
               </div>
-            </Card>
-          );
-        })}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Call to Action */}
+      <div className="border-t border-[#E7E7E7] pt-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="space-y-1">
+          <h3 className="text-xl font-medium text-[#171717] font-heading">
+            Let's work together.
+          </h3>
+          <p className="text-sm text-[#777777]">
+            Reach out to schedule an initial technical conversation.
+          </p>
+        </div>
+        <Button
+          variant="primary"
+          size="lg"
+          onClick={() => setActiveTab && setActiveTab('contact')}
+        >
+          Start a Project
+        </Button>
       </div>
     </div>
   );

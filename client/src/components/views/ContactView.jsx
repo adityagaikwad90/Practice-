@@ -1,11 +1,9 @@
 import React from 'react';
-import { Send, CheckCircle2, User, Mail as MailIcon, Sparkles, Shield, Clock, Lock } from 'lucide-react';
-import Card from '../ui/Card';
+import { ArrowRight, Check } from 'lucide-react';
 import Input from '../ui/Input';
 import Select from '../ui/Select';
 import Textarea from '../ui/Textarea';
 import Button from '../ui/Button';
-import Badge from '../ui/Badge';
 
 export default function ContactView({
   formName,
@@ -25,132 +23,137 @@ export default function ContactView({
   setSubmitSuccess,
   handleSubmitInquiry
 }) {
+  const standardBudgetOptions = [
+    { value: '₹50,000 - ₹1,00,000', label: '₹50,000 - ₹1,00,000' },
+    { value: '₹1,00,000 - ₹2,50,000', label: '₹1,00,000 - ₹2,50,000' },
+    { value: '₹2,50,000 - ₹5,00,000', label: '₹2,50,000 - ₹5,00,000' },
+    { value: '₹5,00,000+', label: '₹5,00,000+ (Scale)' }
+  ];
+
+  // Dynamic budget options supporting custom estimate transfers from the Estimator view
+  const budgetOptions = React.useMemo(() => {
+    if (formBudget && !standardBudgetOptions.some((opt) => opt.value === formBudget)) {
+      return [
+        { value: formBudget, label: `Estimated: ${formBudget}` },
+        ...standardBudgetOptions
+      ];
+    }
+    return standardBudgetOptions;
+  }, [formBudget]);
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-8 animate-fade-up">
-      {/* Header */}
-      <div className="text-center space-y-3">
-        <Badge variant="indigo" dot>
-          Direct Founder Access
-        </Badge>
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-heading">
-          Schedule Technical Discovery
-        </h2>
-        <p className="text-slate-600 text-xs sm:text-base max-w-md mx-auto">
-          Submit your project requirements for direct architectural review by Aditya, Mayur, and Manish.
+    <div className="max-w-2xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-12 page-transition">
+      {/* Editorial Header */}
+      <div className="space-y-4">
+        <span className="eyebrow-minimal block">CONTACT & ENQUIRY</span>
+        <h1 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#171717] font-heading leading-tight">
+          Start a project with us.
+        </h1>
+        <p className="text-sm sm:text-base text-[#777777] leading-relaxed">
+          Tell us about what you want to build. Our founding team will review your requirements and reach out within 24 hours.
         </p>
       </div>
 
-      {/* Success Notification Alert */}
+      {/* Success Notification */}
       {submitSuccess && (
-        <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900 space-y-3 animate-fade-up shadow-sm">
-          <div className="flex items-center gap-2.5 font-bold text-sm sm:text-base font-heading">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-            <span>Inquiry Received Successfully! (ID: {submitSuccess.id})</span>
+        <div className="p-6 bg-[#F7F6F2] border border-[#E7E7E7] rounded-md space-y-2">
+          <div className="flex items-center gap-2 text-sm font-medium text-[#171717]">
+            <Check className="w-4 h-4 text-[#171717]" />
+            <span>Enquiry Received (ID: {submitSuccess.id})</span>
           </div>
-          <p className="text-xs sm:text-sm text-emerald-800 leading-relaxed">
-            Thank you, <strong>{submitSuccess.clientName}</strong>! Our founder team will review your inquiry for{' '}
-            <strong>{submitSuccess.serviceTitle}</strong> and respond to <strong>{submitSuccess.clientEmail}</strong> within 24 hours.
+          <p className="text-xs text-[#777777]">
+            Thank you, {submitSuccess.clientName}. We will email you at <strong>{submitSuccess.clientEmail}</strong> with an initial scoping review.
           </p>
           <button
             type="button"
             onClick={() => setSubmitSuccess(null)}
-            className="text-xs underline text-emerald-700 hover:text-emerald-900 font-semibold pt-1"
+            className="text-xs text-[#171717] underline pt-1 cursor-pointer"
           >
-            Submit Another Request
+            Submit another message
           </button>
         </div>
       )}
 
-      {/* Project Request Form */}
-      <Card padding="p-6 sm:p-10" className="border border-slate-200/90 shadow-xl space-y-6">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 text-xs text-slate-500 font-mono">
-          <span className="flex items-center gap-1.5 text-emerald-600 font-semibold">
-            <Clock className="w-4 h-4" /> &lt;24h Response Time
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Lock className="w-3.5 h-3.5 text-slate-400" /> Confidential & NDA Protected
-          </span>
+      {/* Form */}
+      <form onSubmit={handleSubmitInquiry} className="space-y-6 border-t border-[#E7E7E7] pt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input
+            label="Your Name"
+            placeholder="Rahul Sharma"
+            required
+            value={formName}
+            onChange={(e) => setFormName(e.target.value)}
+          />
+          <Input
+            label="Email Address"
+            type="email"
+            placeholder="rahul@example.com"
+            required
+            value={formEmail}
+            onChange={(e) => setFormEmail(e.target.value)}
+          />
         </div>
 
-        <form onSubmit={handleSubmitInquiry} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <Input
-              label="Your Full Name"
-              required
-              placeholder="e.g. Alex Johnson"
-              icon={User}
-              value={formName}
-              onChange={(e) => setFormName(e.target.value)}
-            />
-
-            <Input
-              label="Work Email Address"
-              type="email"
-              required
-              placeholder="alex@techventures.io"
-              icon={MailIcon}
-              value={formEmail}
-              onChange={(e) => setFormEmail(e.target.value)}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <Select
-              label="Service Category"
-              value={formService}
-              onChange={(e) => setFormService(e.target.value)}
-            >
-              <option value="web-dev">Website Development</option>
-              <option value="android-dev">Android App Development</option>
-              <option value="cloud-solutions">Cloud Solutions & DevOps</option>
-              <option value="promo-videos">Promotional Video Production</option>
-            </Select>
-
-            <Select
-              label="Budget Range"
-              value={formBudget}
-              onChange={(e) => setFormBudget(e.target.value)}
-            >
-              <option value="$350 - $1,000">$350 - $1,000</option>
-              <option value="$1,000 - $2,500">$1,000 - $2,500</option>
-              <option value="$2,500 - $5,000">$2,500 - $5,000</option>
-              <option value="$5,000+">$5,000+</option>
-            </Select>
-
-            <Select
-              label="Target Timeline"
-              value={formTimeline}
-              onChange={(e) => setFormTimeline(e.target.value)}
-            >
-              <option value="Urgent (1 Week)">Urgent (1 Week)</option>
-              <option value="Within 2 Weeks">Within 2 Weeks</option>
-              <option value="1 Month">1 Month</option>
-              <option value="Flexible">Flexible</option>
-            </Select>
-          </div>
-
-          <Textarea
-            label="Project Specifications & Goals"
-            required
-            rows={5}
-            placeholder="Tell us about what you want to build, tech requirements, target deadlines, or any existing repositories/Figma links..."
-            value={formDetails}
-            onChange={(e) => setFormDetails(e.target.value)}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Select
+            label="Service"
+            value={formService}
+            onChange={(e) => setFormService(e.target.value)}
+            options={[
+              { value: 'web-dev', label: 'Web Platform' },
+              { value: 'android-dev', label: 'Android Application' },
+              { value: 'cloud-solutions', label: 'Cloud & DevOps' },
+              { value: 'promo-videos', label: 'Promotional Media' },
+              { value: 'custom', label: 'Custom Architecture' }
+            ]}
           />
+          <Select
+            label="Budget"
+            value={formBudget}
+            onChange={(e) => setFormBudget(e.target.value)}
+            options={budgetOptions}
+          />
+          <Select
+            label="Target Timeline"
+            value={formTimeline}
+            onChange={(e) => setFormTimeline(e.target.value)}
+            options={[
+              { value: 'Within 2 Weeks', label: 'Within 2 Weeks' },
+              { value: 'Within 1 Month', label: 'Within 1 Month' },
+              { value: '1-3 Months', label: '1-3 Months' },
+              { value: 'Flexible', label: 'Flexible' }
+            ]}
+          />
+        </div>
 
+        <Textarea
+          label="Project Overview & Requirements"
+          rows={5}
+          required
+          placeholder="Briefly describe your product goals, technical stack preferences, and any existing infrastructure..."
+          value={formDetails}
+          onChange={(e) => setFormDetails(e.target.value)}
+        />
+
+        <div className="pt-2">
           <Button
             type="submit"
             variant="primary"
             size="lg"
             loading={formSubmitting}
-            icon={Send}
-            iconPosition="left"
-            className="w-full shadow-md shadow-indigo-500/20"
+            className="w-full sm:w-auto"
           >
-            Send Technical Discovery Request
+            {formSubmitting ? 'Submitting...' : 'Send Enquiry'}
           </Button>
-        </form>
-      </Card>
+        </div>
+      </form>
+
+      {/* Direct Email */}
+      <div className="border-t border-[#E7E7E7] pt-8 text-xs font-mono text-[#777777]">
+        Direct Founder Contact:{' '}
+        <a href="mailto:aditya@solvespace.online" className="text-[#171717] hover:underline font-medium">
+          aditya@solvespace.online
+        </a>
+      </div>
     </div>
   );
 }

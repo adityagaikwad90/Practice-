@@ -1,105 +1,136 @@
-import React, { useState } from 'react';
-import { Sparkles, Layers, Calculator, Users, Send, MessageSquare, Zap, ArrowRight, Menu } from 'lucide-react';
-import Button from '../ui/Button';
-import MobileNav from './MobileNav';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, ArrowRight } from 'lucide-react';
+import LogoMonogram from '../ui/LogoMonogram';
 
 export default function Navbar({ activeTab, setActiveTab }) {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const navItems = [
-    { id: 'home', label: 'Overview', icon: Sparkles },
-    { id: 'services', label: 'Services', icon: Layers },
-    { id: 'estimator', label: 'Cost Estimator', icon: Calculator },
-    { id: 'team', label: 'Founders', icon: Users },
-    { id: 'inquiries', label: 'Client Portal', icon: MessageSquare }
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { id: 'services', label: 'Services' },
+    { id: 'work', label: 'Work' },
+    { id: 'about', label: 'About' },
+    { id: 'careers', label: 'Careers' }
   ];
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b border-slate-200/80 px-4 sm:px-6 py-3.5 transition-all">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          {/* Logo Mark */}
+      <nav
+        className={`sticky top-0 z-40 backdrop-blur-md border-b transition-all duration-300 px-6 sm:px-10 ${
+          scrolled
+            ? 'bg-white/95 border-[#E7E7E7] py-3.5 shadow-[0_1px_4px_rgba(0,0,0,0.03)]'
+            : 'bg-white/80 border-[#E7E7E7] py-4'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Left: SolveSpace Signature Geometric S Monogram + Wordmark */}
           <div
-            className="flex items-center gap-3 cursor-pointer group select-none"
-            onClick={() => setActiveTab('home')}
+            onClick={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="cursor-pointer select-none"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-600 flex items-center justify-center shadow-sm shadow-indigo-500/25 transition-transform duration-200 group-hover:scale-105">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 font-heading">
-                  SolveSpace
-                </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full font-bold">
-                  STUDIO
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-mono tracking-wide">solvespace.online</p>
-            </div>
+            <LogoMonogram size={28} animated={true} />
           </div>
 
-          {/* Desktop Navigation Tabs */}
-          <div className="hidden md:flex items-center gap-1 bg-slate-100/90 border border-slate-200/90 p-1.5 rounded-full shadow-xs" role="tablist">
-            {navItems.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
-                    isActive
-                      ? 'bg-white text-indigo-700 shadow-sm border border-slate-200/60 font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-indigo-600' : 'text-slate-400'}`} />
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
+          {/* Right: Minimal Navigation Links + Contact Button */}
+          <div className="hidden md:flex items-center gap-8">
+            <div className="flex items-center gap-7 text-xs sm:text-sm font-normal">
+              {navLinks.map((link) => {
+                const isActive = activeTab === link.id;
+                return (
+                  <button
+                    key={link.id}
+                    onClick={() => setActiveTab(link.id)}
+                    className={`transition-colors duration-200 cursor-pointer py-1 relative group ${
+                      isActive
+                        ? 'text-[#171717] font-medium'
+                        : 'text-[#777777] hover:text-[#171717]'
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    <span
+                      className={`absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#171717] transition-all duration-200 ${
+                        isActive
+                          ? 'opacity-100 scale-x-100'
+                          : 'opacity-0 scale-x-50 group-hover:opacity-40 group-hover:scale-x-100'
+                      }`}
+                    />
+                  </button>
+                );
+              })}
+            </div>
 
-          {/* Desktop CTA Header Action */}
-          <div className="hidden sm:flex items-center gap-3">
-            <Button
-              variant="primary"
-              size="sm"
-              icon={ArrowRight}
-              iconPosition="right"
+            <button
               onClick={() => setActiveTab('contact')}
-              className="shadow-sm shadow-indigo-500/20"
+              className="btn-primary-mono px-4 py-2 text-xs sm:text-sm cursor-pointer active:scale-[0.98] transition-transform"
             >
-              Start Project
-            </Button>
+              Contact
+            </button>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <button
-            type="button"
-            onClick={() => setMobileNavOpen(true)}
-            className="md:hidden p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-200 transition-colors"
-            aria-label="Toggle navigation menu"
-          >
-            <Menu className="w-5 h-5 text-indigo-600" />
-          </button>
+          {/* Mobile Menu Button with standalone S / hamburger */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-1.5 text-[#171717] hover:bg-[#F7F6F2] rounded cursor-pointer transition-colors active:scale-95"
+              aria-label="Toggle navigation"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
-      </nav>
 
-      {/* Mobile Drawer */}
-      <MobileNav
-        isOpen={mobileNavOpen}
-        onClose={() => setMobileNavOpen(false)}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        navItems={[
-          ...navItems,
-          { id: 'contact', label: 'Start Project', icon: Send }
-        ]}
-      />
+        {/* Mobile Dropdown with smooth entrance */}
+        {mobileMenuOpen && (
+          <div className="md:hidden pt-4 pb-3 border-t border-[#E7E7E7] mt-3 space-y-2 text-sm page-transition">
+            <button
+              onClick={() => {
+                setActiveTab('home');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left py-2 text-[#777777] hover:text-[#171717] transition-colors"
+            >
+              Home
+            </button>
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => {
+                  setActiveTab(link.id);
+                  setMobileMenuOpen(false);
+                }}
+                className={`block w-full text-left py-2 transition-colors ${
+                  activeTab === link.id ? 'text-[#171717] font-medium' : 'text-[#777777] hover:text-[#171717]'
+                }`}
+              >
+                {link.label}
+              </button>
+            ))}
+            <div className="pt-2">
+              <button
+                onClick={() => {
+                  setActiveTab('contact');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full btn-primary-mono py-2.5 text-center text-xs"
+              >
+                Contact
+              </button>
+            </div>
+          </div>
+        )}
+      </nav>
     </>
   );
 }

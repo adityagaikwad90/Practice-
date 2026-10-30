@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, ArrowRight, Zap } from 'lucide-react';
+import { X, ArrowRight, Zap, Sparkles } from 'lucide-react';
 import Button from '../ui/Button';
 
 export default function MobileNav({
@@ -26,24 +26,27 @@ export default function MobileNav({
     <div className="fixed inset-0 z-50 md:hidden flex flex-col">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#080610]/80 backdrop-blur-md transition-opacity"
         onClick={onClose}
       />
 
       {/* Drawer Menu */}
-      <div className="relative ml-auto w-full max-w-xs h-full bg-white border-l border-slate-200 p-6 flex flex-col justify-between shadow-2xl z-10 animate-fade-up">
+      <div className="relative ml-auto w-full max-w-xs h-full bg-[#100B20] border-l border-white/10 p-6 flex flex-col justify-between shadow-2xl z-10 animate-fade-up">
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+          <div className="flex items-center justify-between pb-4 border-b border-white/10">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-indigo-600" />
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#7027D9] to-[#3568FF] flex items-center justify-center shadow-md shadow-[#7027D9]/40">
+                <Zap className="w-4 h-4 text-white" />
               </div>
-              <span className="font-bold text-sm text-slate-900 tracking-tight font-heading">SOLVESPACE</span>
+              <div>
+                <span className="font-bold text-sm text-white tracking-tight font-heading block">SolveSpace</span>
+                <span className="text-[10px] text-[#A7A1B5] font-mono">Technologies</span>
+              </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="p-2 rounded-xl text-[#A7A1B5] hover:text-white hover:bg-white/10 transition-colors"
               aria-label="Close menu"
             >
               <X className="w-5 h-5" />
@@ -66,11 +69,11 @@ export default function MobileNav({
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition-all duration-200 ${
                     isActive
-                      ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                      ? 'bg-[#7027D9]/30 text-white border border-[#8B5CF6]/50 shadow-sm shadow-[#8B5CF6]/20'
+                      : 'text-[#A7A1B5] hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#8B5CF6]' : 'text-[#A7A1B5]'}`} />
                   <span>{item.label}</span>
                 </button>
               );
@@ -79,7 +82,7 @@ export default function MobileNav({
         </div>
 
         {/* Bottom CTA */}
-        <div className="pt-6 border-t border-slate-100 space-y-3">
+        <div className="pt-6 border-t border-white/10 space-y-3">
           <Button
             variant="primary"
             size="md"
@@ -91,10 +94,10 @@ export default function MobileNav({
               onClose();
             }}
           >
-            Request Quote
+            Contact Us
           </Button>
 
-          <p className="text-[11px] text-center text-slate-500 font-mono">
+          <p className="text-[11px] text-center text-[#A7A1B5] font-mono">
             solvespace.online
           </p>
         </div>

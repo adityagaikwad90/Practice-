@@ -1,31 +1,19 @@
 import React, { useState } from 'react';
-import { Activity, Search, AlertCircle, Eye, Calendar, DollarSign, Clock, MessageSquare } from 'lucide-react';
-import Card from '../ui/Card';
-import Badge from '../ui/Badge';
+import { Search, Eye, RefreshCw } from 'lucide-react';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import Modal from '../ui/Modal';
 import { CardSkeleton } from '../ui/Skeleton';
 
 export default function InquiriesView({
-  inquiries,
-  loadingInquiries,
+  inquiries = [],
+  loadingInquiries = false,
   fetchInquiries
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [selectedInquiry, setSelectedInquiry] = useState(null);
 
-  const getStatusBadgeVariant = (status) => {
-    switch (status) {
-      case 'In Review': return 'indigo';
-      case 'Contacted': return 'emerald';
-      case 'Pending Review': return 'amber';
-      default: return 'sky';
-    }
-  };
-
-  // Filter inquiries based on search term & status
   const filteredInquiries = inquiries.filter((inq) => {
     const matchesSearch =
       inq.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -40,205 +28,152 @@ export default function InquiriesView({
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8 animate-fade-up">
-      {/* Header Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+    <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-12 page-transition">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 border-b border-[#E7E7E7] pb-6">
         <div>
-          <div className="flex items-center gap-2">
-            <Badge variant="indigo" dot>
-              Live API Storage
-            </Badge>
-            <span className="text-[11px] font-mono text-slate-500">GET /api/inquiries</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1 font-heading">
-            Client Portal & Live Inquiries
-          </h2>
+          <span className="eyebrow-minimal block">PORTAL</span>
+          <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-[#171717] font-heading mt-1">
+            Client Inquiries & Telemetry
+          </h1>
         </div>
 
         <Button
           variant="secondary"
           size="sm"
-          icon={Activity}
+          icon={RefreshCw}
           onClick={fetchInquiries}
           loading={loadingInquiries}
-          className="self-start md:self-auto"
         >
-          Refresh Feed
+          Refresh Data
         </Button>
       </div>
 
-      {/* Search & Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Filter and Search */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="w-full sm:w-72">
           <Input
-            placeholder="Search by name, email, ID..."
-            icon={Search}
+            placeholder="Search by name, email, or ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            icon={Search}
           />
         </div>
 
-        {/* Filter Badges */}
-        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-          {['ALL', 'Pending Review', 'In Review', 'Contacted'].map((status) => {
-            const isActive = statusFilter === status;
-            return (
-              <button
-                key={status}
-                onClick={() => setStatusFilter(status)}
-                className={`px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-all duration-200 ${
-                  isActive
-                    ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-xs font-semibold'
-                    : 'bg-slate-100 text-slate-600 border border-slate-200 hover:text-slate-900 hover:bg-slate-200/60'
-                }`}
-              >
-                {status}
-              </button>
-            );
-          })}
+        <div className="flex gap-1.5 text-xs">
+          {['ALL', 'Pending Review', 'In Review', 'Contacted'].map((status) => (
+            <button
+              key={status}
+              onClick={() => setStatusFilter(status)}
+              className={`px-3 py-1.5 rounded-[4px] font-mono transition-colors cursor-pointer ${
+                statusFilter === status
+                  ? 'bg-[#171717] text-white'
+                  : 'bg-[#F7F6F2] text-[#777777] hover:text-[#171717] border border-[#E7E7E7]'
+              }`}
+            >
+              {status}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Content Feed */}
+      {/* Inquiries List */}
       {loadingInquiries ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-4">
           <CardSkeleton />
           <CardSkeleton />
         </div>
       ) : filteredInquiries.length === 0 ? (
-        <Card padding="p-12" className="text-center space-y-3">
-          <AlertCircle className="w-8 h-8 text-slate-400 mx-auto animate-soft-pulse" />
-          <h3 className="text-base font-bold text-slate-900 font-heading">No Inquiries Found</h3>
-          <p className="text-slate-500 text-xs max-w-sm mx-auto">
-            {searchTerm || statusFilter !== 'ALL'
-              ? 'No project requests match your current search or status filter criteria.'
-              : 'No project inquiries submitted yet. Submit a request from the Get Started tab!'}
-          </p>
-        </Card>
+        <div className="p-12 border border-[#E7E7E7] rounded-lg text-center space-y-2 text-[#777777]">
+          <p className="text-sm">No inquiries match your criteria.</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredInquiries.map((inq) => {
-            const badgeVariant = getStatusBadgeVariant(inq.status);
-            return (
-              <Card key={inq.id} hover padding="p-6" className="space-y-4 flex flex-col justify-between">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded font-semibold">
-                        {inq.id}
-                      </span>
-                      <h3 className="text-base font-bold text-slate-900 mt-1.5 font-heading">{inq.clientName}</h3>
-                      <p className="text-xs text-slate-500">{inq.clientEmail}</p>
-                    </div>
-
-                    <Badge variant={badgeVariant} dot size="sm">
-                      {inq.status}
-                    </Badge>
-                  </div>
-
-                  <div className="space-y-1.5 text-xs">
-                    <div className="text-slate-700">
-                      Service: <strong className="text-slate-900 font-semibold">{inq.serviceTitle}</strong>
-                    </div>
-                    <div className="flex items-center gap-3 text-slate-500 font-mono text-[11px]">
-                      <span>Budget: {inq.budgetRange}</span>
-                      <span>•</span>
-                      <span>Timeline: {inq.timeline}</span>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-slate-50 rounded-xl text-xs text-slate-700 border border-slate-200/80 line-clamp-3">
-                    "{inq.projectDetails}"
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-slate-400">
-                    {new Date(inq.createdAt).toLocaleString()}
+        <div className="space-y-4">
+          {filteredInquiries.map((inquiry) => (
+            <div
+              key={inquiry.id}
+              className="mono-card p-5 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-mono font-medium text-[#171717]">
+                    {inquiry.id}
                   </span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    icon={Eye}
-                    onClick={() => setSelectedInquiry(inq)}
-                  >
-                    View Details
-                  </Button>
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#F7F6F2] text-[#777777] border border-[#E7E7E7]">
+                    {inquiry.status}
+                  </span>
                 </div>
-              </Card>
-            );
-          })}
+                <div className="text-sm font-medium text-[#171717]">
+                  {inquiry.clientName}
+                  <span className="font-normal text-[#777777] ml-2 text-xs font-mono">
+                    {inquiry.clientEmail}
+                  </span>
+                </div>
+                <div className="text-xs text-[#777777]">
+                  {inquiry.serviceTitle} • {inquiry.budgetRange}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedInquiry(inquiry)}
+                className="text-xs text-[#171717] font-medium hover:underline flex items-center gap-1 cursor-pointer shrink-0"
+              >
+                <Eye className="w-3.5 h-3.5" />
+                <span>View Details</span>
+              </button>
+            </div>
+          ))}
         </div>
       )}
 
-      {/* Inquiry Detail Modal */}
-      <Modal
-        isOpen={!!selectedInquiry}
-        onClose={() => setSelectedInquiry(null)}
-        title={`Inquiry Details - ${selectedInquiry?.id}`}
-        subtitle={`Submitted by ${selectedInquiry?.clientName}`}
-      >
-        {selectedInquiry && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+      {/* Modal for Details */}
+      {selectedInquiry && (
+        <Modal
+          isOpen={!!selectedInquiry}
+          onClose={() => setSelectedInquiry(null)}
+          title={`Inquiry ${selectedInquiry.id}`}
+          subtitle={`Submitted on ${new Date(selectedInquiry.createdAt).toLocaleDateString()}`}
+        >
+          <div className="space-y-4 text-xs sm:text-sm text-[#777777]">
+            <div className="p-4 bg-[#F7F6F2] border border-[#E7E7E7] rounded-md grid grid-cols-2 gap-4">
               <div>
-                <span className="text-[11px] font-mono text-slate-500">Client Name</span>
-                <p className="text-sm font-bold text-slate-900 font-heading">{selectedInquiry.clientName}</p>
+                <span className="font-mono text-[10px] uppercase text-[#777777] block">Client</span>
+                <strong className="text-[#171717]">{selectedInquiry.clientName}</strong>
               </div>
               <div>
-                <span className="text-[11px] font-mono text-slate-500">Email Address</span>
-                <p className="text-sm font-medium text-indigo-700 font-mono">{selectedInquiry.clientEmail}</p>
+                <span className="font-mono text-[10px] uppercase text-[#777777] block">Email</span>
+                <span className="text-[#171717] font-mono">{selectedInquiry.clientEmail}</span>
               </div>
               <div>
-                <span className="text-[11px] font-mono text-slate-500">Service Category</span>
-                <p className="text-sm font-medium text-slate-900">{selectedInquiry.serviceTitle}</p>
+                <span className="font-mono text-[10px] uppercase text-[#777777] block">Service</span>
+                <span className="text-[#171717]">{selectedInquiry.serviceTitle}</span>
               </div>
               <div>
-                <span className="text-[11px] font-mono text-slate-500">Status</span>
-                <div className="mt-0.5">
-                  <Badge variant={getStatusBadgeVariant(selectedInquiry.status)} dot>
-                    {selectedInquiry.status}
-                  </Badge>
-                </div>
+                <span className="font-mono text-[10px] uppercase text-[#777777] block">Budget</span>
+                <span className="text-[#171717] font-mono">{selectedInquiry.budgetRange}</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-                <DollarSign className="w-4 h-4 text-indigo-600 shrink-0" />
-                <div>
-                  <div className="text-[10px] font-mono text-slate-500">Budget Range</div>
-                  <div className="text-xs font-bold text-slate-900">{selectedInquiry.budgetRange}</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-                <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
-                <div>
-                  <div className="text-[10px] font-mono text-slate-500">Timeline</div>
-                  <div className="text-xs font-bold text-slate-900">{selectedInquiry.timeline}</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-700 font-mono">
-                Project Requirements & Description
-              </span>
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-700 leading-relaxed font-sans">
+            <div className="space-y-1">
+              <span className="font-mono text-xs uppercase text-[#171717] block">Project Details</span>
+              <div className="p-3 bg-white border border-[#E7E7E7] rounded-md font-mono text-xs leading-relaxed whitespace-pre-wrap text-[#171717]">
                 {selectedInquiry.projectDetails}
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-xs text-slate-500">
-              <span className="font-mono">Created: {new Date(selectedInquiry.createdAt).toUTCString()}</span>
-              <Button variant="secondary" size="sm" onClick={() => setSelectedInquiry(null)}>
+            <div className="pt-2 flex justify-end">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setSelectedInquiry(null)}
+              >
                 Close
               </Button>
             </div>
           </div>
-        )}
-      </Modal>
+        </Modal>
+      )}
     </div>
   );
 }

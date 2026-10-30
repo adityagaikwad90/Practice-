@@ -1,112 +1,168 @@
 import React from 'react';
-import { Globe, Smartphone, Cloud, Video, Layers, Check, ArrowRight, Calculator } from 'lucide-react';
-import Card from '../ui/Card';
-import Badge from '../ui/Badge';
+import { ArrowRight } from 'lucide-react';
 import Button from '../ui/Button';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
-export default function ServicesView({ services, setFormService, setActiveTab }) {
-  const getServiceIcon = (iconName) => {
-    switch (iconName) {
-      case 'Globe': return <Globe className="w-7 h-7 text-indigo-600" />;
-      case 'Smartphone': return <Smartphone className="w-7 h-7 text-emerald-600" />;
-      case 'Cloud': return <Cloud className="w-7 h-7 text-sky-600" />;
-      case 'Video': return <Video className="w-7 h-7 text-purple-600" />;
-      default: return <Layers className="w-7 h-7 text-indigo-600" />;
+export default function ServicesView({ setFormService, setActiveTab }) {
+  useScrollReveal();
+  const serviceCategories = [
+    {
+      id: 'cloud-solutions',
+      title: 'Cloud & DevOps Engineering',
+      tagline: 'Resilient, automated cloud infrastructure',
+      description: 'We architect and provision enterprise-grade AWS and GCP environments designed for uptime, security, and low latency. Every deployment is containerized with Docker and driven by automated GitHub Actions CI/CD pipelines.',
+      deliverables: [
+        'AWS EC2, ECS, and S3 secure storage architectures',
+        'Docker & Docker Compose containerized microservices',
+        'Automated CI/CD deployment workflows with GitHub Actions',
+        'Nginx reverse proxy with automated SSL/TLS certificate renewal',
+        'System monitoring, access control, and network security policies'
+      ],
+      technologies: ['AWS EC2', 'AWS S3', 'Docker', 'Nginx', 'GitHub Actions', 'Linux']
+    },
+    {
+      id: 'web-dev',
+      title: 'Web Platform Development',
+      tagline: 'High-speed, scalable web applications',
+      description: 'We build responsive Single Page Applications and web platforms using React 18, Next.js, and modern CSS architecture. Focused on sub-second page loads, accessible UI components, and clean state management.',
+      deliverables: [
+        'Single Page Applications with React 18 and Next.js',
+        'Design systems and accessible UI components',
+        'REST and GraphQL API integration with client caching',
+        'Core Web Vitals optimization (Lighthouse 95+ scores)',
+        'Responsive layouts tested across mobile, tablet, and desktop'
+      ],
+      technologies: ['React 18', 'Next.js', 'Tailwind CSS', 'Vite', 'TypeScript']
+    },
+    {
+      id: 'android-dev',
+      title: 'Android Application Engineering',
+      tagline: 'Native 120 FPS mobile experiences',
+      description: 'We craft native Android applications with Kotlin and Jetpack Compose. Engineered for fluid animations, offline-first Room database synchronization, and automated Google Play Store release tracks.',
+      deliverables: [
+        'Declarative native UI with Jetpack Compose',
+        'Offline-first data persistence using Room Database',
+        'Reactive asynchronous streaming with Kotlin Coroutines and Flow',
+        'Biometric authentication, camera, and device sensor integration',
+        'Google Play Console deployment and release management'
+      ],
+      technologies: ['Kotlin', 'Jetpack Compose', 'Room DB', 'Coroutines', 'Android SDK']
+    },
+    {
+      id: 'backend-dev',
+      title: 'Backend Systems & APIs',
+      tagline: 'High-throughput microservices and APIs',
+      description: 'We engineer resilient backend systems using Node.js and Express. From relational database modeling in PostgreSQL to distributed Redis caching and secure cloud storage pipelines with Amazon S3.',
+      deliverables: [
+        'Scalable RESTful microservices and API gateways',
+        'Relational and document database schema design (PostgreSQL / MongoDB)',
+        'Amazon S3 private asset storage and presigned upload flows',
+        'Authentication, authorization, and rate-limiting security layers',
+        'Comprehensive integration testing and automated health telemetry'
+      ],
+      technologies: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'AWS S3', 'Redis']
     }
-  };
+  ];
 
-  const getServiceBadgeVariant = (iconName) => {
-    switch (iconName) {
-      case 'Globe': return 'indigo';
-      case 'Smartphone': return 'emerald';
-      case 'Cloud': return 'sky';
-      case 'Video': return 'purple';
-      default: return 'neutral';
-    }
+  const handleSelectService = (id) => {
+    if (setFormService) setFormService(id);
+    setActiveTab('contact');
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-12 animate-fade-up">
-      {/* Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
-        <Badge variant="indigo" dot>Engineering Services</Badge>
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-heading">
-          Comprehensive Tech Services
-        </h2>
-        <p className="text-slate-600 text-xs sm:text-base leading-relaxed">
-          From fullstack web applications to automated AWS cloud architectures and high-impact media reels, built to accelerate startup growth.
+    <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
+      {/* Editorial Header */}
+      <div className="space-y-6">
+        <span className="eyebrow-minimal block">ENGINEERING SERVICES</span>
+        <h1 className="text-4xl sm:text-6xl font-normal tracking-tight text-[#171717] font-heading leading-tight">
+          Capabilities built for production.
+        </h1>
+        <p className="text-base sm:text-lg text-[#777777] leading-relaxed max-w-2xl">
+          We build digital software systems across four focused disciplines. Every engagement is executed with direct founder oversight, clean architecture, and complete source code ownership.
         </p>
       </div>
 
-      {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {services.map((service) => {
-          const badgeVariant = getServiceBadgeVariant(service.icon);
-          return (
-            <Card
-              key={service.id}
-              hover
-              padding="p-8"
-              className="flex flex-col justify-between space-y-8 border border-slate-200/90 shadow-sm hover:shadow-xl transition-all"
-            >
-              <div className="space-y-6">
-                <div className="flex justify-between items-start">
-                  <div className="p-3.5 bg-indigo-50/80 rounded-2xl border border-indigo-100 shadow-xs">
-                    {getServiceIcon(service.icon)}
+      {/* Services List */}
+      <div className="space-y-16">
+        {serviceCategories.map((service, index) => (
+          <div
+            key={service.id}
+            className="reveal-init border-t border-[#E7E7E7] hover:border-[#171717] pt-12 space-y-8 transition-colors duration-300"
+          >
+            <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4">
+              <div>
+                <span className="text-xs font-mono text-[#777777] block mb-1">
+                  0{index + 1}
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading">
+                  {service.title}
+                </h2>
+                <p className="text-xs sm:text-sm text-[#777777] mt-1 font-mono">
+                  {service.tagline}
+                </p>
+              </div>
+
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => handleSelectService(service.id)}
+              >
+                Discuss this service
+              </Button>
+            </div>
+
+            <p className="text-sm sm:text-base text-[#171717] leading-relaxed max-w-3xl">
+              {service.description}
+            </p>
+
+            {/* Deliverables list */}
+            <div className="space-y-3">
+              <span className="text-xs font-mono uppercase tracking-wider text-[#777777]">
+                Key Deliverables
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-xs sm:text-sm text-[#777777]">
+                {service.deliverables.map((item, dIdx) => (
+                  <div key={dIdx} className="flex items-start gap-2">
+                    <span className="text-[#171717] select-none">—</span>
+                    <span>{item}</span>
                   </div>
-                  <Badge variant={badgeVariant} size="md">
-                    Starting at ${service.pricingStarting}
-                  </Badge>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight font-heading">
-                    {service.title}
-                  </h3>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                    {service.fullDesc}
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  <h4 className="text-[11px] font-bold uppercase text-slate-500 tracking-wider font-mono">
-                    What We Deliver:
-                  </h4>
-                  <ul className="space-y-2.5">
-                    {service.features.map((feat, idx) => (
-                      <li key={idx} className="flex items-center gap-3 text-xs sm:text-sm text-slate-700">
-                        <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0">
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        </div>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                ))}
               </div>
+            </div>
 
-              <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="text-xs text-slate-500 font-mono">
-                  Est. Delivery: <strong className="text-slate-900 font-bold">{service.estTimeline}</strong>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    icon={ArrowRight}
-                    iconPosition="right"
-                    onClick={() => {
-                      setFormService(service.id);
-                      setActiveTab('contact');
-                    }}
-                  >
-                    Request Service
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          );
-        })}
+            {/* Technologies */}
+            <div className="pt-2 flex flex-wrap items-center gap-2">
+              {service.technologies.map((tech, tIdx) => (
+                <span
+                  key={tIdx}
+                  className="px-2.5 py-1 text-xs font-mono bg-[#F7F6F2] border border-[#E7E7E7] text-[#171717] rounded-[4px]"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Cost Estimator Link Banner */}
+      <div className="mono-card-warm p-8 rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="space-y-1">
+          <h3 className="text-lg font-medium text-[#171717] font-heading">
+            Need an indicative project estimate?
+          </h3>
+          <p className="text-xs sm:text-sm text-[#777777]">
+            Use our interactive calculator to explore indicative project scopes and timelines.
+          </p>
+        </div>
+        <Button
+          variant="secondary"
+          size="md"
+          onClick={() => setActiveTab('estimator')}
+          className="shrink-0"
+        >
+          Open Cost Estimator
+        </Button>
       </div>
     </div>
   );

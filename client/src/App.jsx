@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 // Layout Components
-import TopBar from './components/layout/TopBar';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import SystemStatusDock from './components/layout/SystemStatusDock';
-
+import LogoMonogram from './components/ui/LogoMonogram';
 
 // Views
 import HomeView from './components/views/HomeView';
 import ServicesView from './components/views/ServicesView';
+import WorkView from './components/views/WorkView';
+import CareersView from './components/views/CareersView';
 import EstimatorView from './components/views/EstimatorView';
 import TeamView from './components/views/TeamView';
 import ContactView from './components/views/ContactView';
@@ -20,6 +20,26 @@ import './App.css';
 export default function App() {
   // Navigation & Core State
   const [activeTab, setActiveTab] = useState('home');
+  const [initialLoading, setInitialLoading] = useState(() => {
+    try {
+      return !sessionStorage.getItem('solvespace_welcomed');
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    if (initialLoading) {
+      const timer = setTimeout(() => {
+        setInitialLoading(false);
+        try {
+          sessionStorage.setItem('solvespace_welcomed', 'true');
+        } catch {}
+      }, 750);
+      return () => clearTimeout(timer);
+    }
+  }, [initialLoading]);
+
   const [serverHealth, setServerHealth] = useState({ status: 'checking', message: 'Connecting to server...' });
   const [teamMembers, setTeamMembers] = useState([]);
   const [services, setServices] = useState([]);
@@ -41,8 +61,8 @@ export default function App() {
   const [formName, setFormName] = useState('');
   const [formEmail, setFormEmail] = useState('');
   const [formService, setFormService] = useState('web-dev');
-  const [formBudget, setFormBudget] = useState('$1,000 - $2,500');
-  const [formTimeline, setFormTimeline] = useState('Within 2 Weeks');
+  const [formBudget, setFormBudget] = useState('₹1,00,000 - ₹2,50,000');
+  const [formTimeline, setFormTimeline] = useState('Within 1 Month');
   const [formDetails, setFormDetails] = useState('');
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(null);
@@ -99,14 +119,14 @@ export default function App() {
   useEffect(() => {
     checkHealth();
     fetchInitialData();
-    const interval = setInterval(checkHealth, 15000);
-    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     if (activeTab === 'inquiries') {
       fetchInquiries();
     }
+    // Scroll to top on navigation change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeTab]);
 
   // Handle Form Submission
@@ -148,45 +168,42 @@ export default function App() {
     }
   };
 
-  // Calculate Instant Estimate
+  // Calculate Instant Estimate in INR
   const getEstimatedPrice = () => {
-    let basePrice = 500;
-    if (selectedService === 'web-dev') basePrice = 499;
-    if (selectedService === 'android-dev') basePrice = 799;
-    if (selectedService === 'cloud-solutions') basePrice = 599;
-    if (selectedService === 'promo-videos') basePrice = 349;
+    let basePrice = 40000;
+    if (selectedService === 'web-dev') basePrice = 40000;
+    if (selectedService === 'android-dev') basePrice = 65000;
+    if (selectedService === 'cloud-solutions') basePrice = 50000;
+    if (selectedService === 'promo-videos') basePrice = 30000;
 
     let scaleMultiplier = 1;
     if (projectScale === 'medium') scaleMultiplier = 1.8;
     if (projectScale === 'enterprise') scaleMultiplier = 3.2;
 
     let urgencyMultiplier = 1;
-    if (timelineUrgency === 'rush') urgencyMultiplier = 1.3;
+    if (timelineUrgency === 'rush') urgencyMultiplier = 1.25;
     if (timelineUrgency === 'relaxed') urgencyMultiplier = 0.9;
 
     const estimatedTotal = Math.round(basePrice * scaleMultiplier * urgencyMultiplier);
-    return `$${estimatedTotal.toLocaleString()}`;
+    return `₹${estimatedTotal.toLocaleString('en-IN')}`;
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFC] text-slate-900 flex flex-col font-sans relative selection:bg-indigo-500/15 selection:text-indigo-900">
-      {/* Background Animated Ambient Mesh */}
-      <div className="ambient-bg" aria-hidden="true">
-        <div className="ambient-orb ambient-orb-1" />
-        <div className="ambient-orb ambient-orb-2" />
-        <div className="ambient-orb ambient-orb-3" />
-      </div>
+    <div className="min-h-screen bg-white text-[#171717] flex flex-col font-sans relative selection:bg-[#171717] selection:text-white">
+      {/* Initial Signature Monogram Entrance (Session-cached) */}
+      {initialLoading && (
+        <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300">
+          <LogoMonogram size={48} animated={true} />
+        </div>
+      )}
 
-      {/* Top Announcement Bar */}
-      <TopBar setActiveTab={setActiveTab} />
-
-      {/* Main Navigation Header */}
+      {/* Navigation Header */}
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* Main Content View Container */}
-      <main className="flex-grow relative z-10">
+      {/* Main Content Area */}
+      <main className="flex-grow">
         {activeTab === 'home' && (
-          <HomeView stats={stats} setActiveTab={setActiveTab} />
+          <HomeView setActiveTab={setActiveTab} />
         )}
 
         {activeTab === 'services' && (
@@ -195,6 +212,18 @@ export default function App() {
             setFormService={setFormService}
             setActiveTab={setActiveTab}
           />
+        )}
+
+        {activeTab === 'work' && (
+          <WorkView setActiveTab={setActiveTab} />
+        )}
+
+        {(activeTab === 'about' || activeTab === 'team') && (
+          <TeamView teamMembers={teamMembers} setActiveTab={setActiveTab} />
+        )}
+
+        {activeTab === 'careers' && (
+          <CareersView setActiveTab={setActiveTab} />
         )}
 
         {activeTab === 'estimator' && (
@@ -210,10 +239,6 @@ export default function App() {
             setFormBudget={setFormBudget}
             setActiveTab={setActiveTab}
           />
-        )}
-
-        {activeTab === 'team' && (
-          <TeamView teamMembers={teamMembers} />
         )}
 
         {activeTab === 'contact' && (
@@ -246,12 +271,8 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer with Dedicated Bottom Server Active Status Section */}
+      {/* Minimal Footer */}
       <Footer setActiveTab={setActiveTab} serverHealth={serverHealth} />
-
-      {/* Compact Floating Telemetry Dock */}
-      <SystemStatusDock serverHealth={serverHealth} onRefreshHealth={checkHealth} />
     </div>
   );
 }
-
