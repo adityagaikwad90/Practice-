@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Button from '../ui/Button';
-import { useScrollReveal } from '../../hooks/useScrollReveal';
+import TypographyReveal from '../ui/TypographyReveal';
 
 export default function WorkView({ setActiveTab }) {
   const [filter, setFilter] = useState('all');
-  useScrollReveal(filter);
+  const shouldReduceMotion = useReducedMotion();
 
   const projects = [
     {
@@ -76,102 +77,121 @@ export default function WorkView({ setActiveTab }) {
 
   const filteredProjects = filter === 'all'
     ? projects
-    : projects.filter(p => p.category === filter);
+    : projects.filter((p) => p.category === filter);
+
+  const filterTabs = [
+    { id: 'all', label: 'All Projects' },
+    { id: 'cloud', label: 'Cloud & DevOps' },
+    { id: 'web', label: 'Web Platforms' },
+    { id: 'mobile', label: 'Android' },
+    { id: 'media', label: 'Media Systems' }
+  ];
 
   return (
     <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
-      {/* Editorial Header */}
+      {/* Editorial Header with Typography Reveal */}
       <div className="space-y-6">
         <span className="eyebrow-minimal block">PORTFOLIO</span>
-        <h1 className="text-4xl sm:text-6xl font-normal tracking-tight text-[#171717] font-heading leading-tight">
-          Things we've built.
-        </h1>
+        <TypographyReveal
+          as="h1"
+          lines={["Things we've built."]}
+          className="text-4xl sm:text-6xl font-normal tracking-tight text-[#171717] font-heading leading-tight"
+        />
         <p className="text-base sm:text-lg text-[#777777] leading-relaxed max-w-2xl">
           A collection of production software, cloud infrastructure, and mobile applications engineered directly by our founding team.
         </p>
 
-        {/* Minimal Category Filter */}
+        {/* Minimal Animated Category Filter Pills */}
         <div className="pt-4 flex flex-wrap gap-2 text-xs">
-          {[
-            { id: 'all', label: 'All Projects' },
-            { id: 'cloud', label: 'Cloud & DevOps' },
-            { id: 'web', label: 'Web Platforms' },
-            { id: 'mobile', label: 'Android' },
-            { id: 'media', label: 'Media Systems' }
-          ].map((btn) => (
-            <button
-              key={btn.id}
-              onClick={() => setFilter(btn.id)}
-              className={`px-3 py-1.5 rounded-[4px] font-mono transition-colors cursor-pointer ${
-                filter === btn.id
-                  ? 'bg-[#171717] text-white'
-                  : 'bg-[#F7F6F2] text-[#777777] hover:text-[#171717] border border-[#E7E7E7]'
-              }`}
-            >
-              {btn.label}
-            </button>
-          ))}
+          {filterTabs.map((btn) => {
+            const isSelected = filter === btn.id;
+            return (
+              <button
+                key={btn.id}
+                onClick={() => setFilter(btn.id)}
+                className={`relative px-3.5 py-1.5 rounded-[4px] font-mono transition-colors cursor-pointer ${
+                  isSelected ? 'text-white' : 'text-[#777777] hover:text-[#171717] bg-[#F7F6F2] border border-[#E7E7E7]'
+                }`}
+              >
+                {isSelected && (
+                  <motion.div
+                    layoutId="activeFilterPill"
+                    className="absolute inset-0 bg-[#171717] rounded-[4px]"
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                  />
+                )}
+                <span className="relative z-10">{btn.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Projects Editorial Showcase */}
-      <div className="space-y-20">
-        {filteredProjects.map((project, idx) => (
-          <div
-            key={project.id}
-            className="reveal-init border-t border-[#E7E7E7] hover:border-[#171717] pt-12 space-y-8 transition-colors duration-300"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
-              <div>
-                <span className="text-xs font-mono text-[#777777] block mb-1">
-                  0{idx + 1} • {project.categoryLabel}
+      {/* Projects Editorial Showcase with Framer Motion Layout Transitions */}
+      <motion.div layout className="space-y-16">
+        <AnimatePresence mode="popLayout">
+          {filteredProjects.map((project, idx) => (
+            <motion.div
+              layout
+              key={project.id}
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="border-t border-[#E7E7E7] hover:border-[#171717] pt-12 space-y-8 transition-colors duration-300 group"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
+                <div>
+                  <span className="text-xs font-mono text-[#777777] block mb-1">
+                    0{idx + 1} • {project.categoryLabel}
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading group-hover:text-black transition-colors">
+                    {project.name}
+                  </h2>
+                  <p className="text-xs sm:text-sm text-[#777777] mt-1 font-mono">
+                    {project.tagline}
+                  </p>
+                </div>
+
+                <span className="text-xs font-mono text-[#777777]">
+                  {project.lead}
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading">
-                  {project.name}
-                </h2>
-                <p className="text-xs sm:text-sm text-[#777777] mt-1 font-mono">
-                  {project.tagline}
-                </p>
               </div>
 
-              <span className="text-xs font-mono text-[#777777]">
-                {project.lead}
-              </span>
-            </div>
+              <p className="text-sm sm:text-base text-[#171717] leading-relaxed max-w-3xl">
+                {project.description}
+              </p>
 
-            <p className="text-sm sm:text-base text-[#171717] leading-relaxed max-w-3xl">
-              {project.description}
-            </p>
+              {/* Architectural Highlights */}
+              <div className="space-y-3">
+                <span className="text-xs font-mono uppercase tracking-wider text-[#777777]">
+                  Architectural Highlights
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-xs sm:text-sm text-[#777777]">
+                  {project.highlights.map((h, hIdx) => (
+                    <div key={hIdx} className="flex items-start gap-2">
+                      <span className="text-[#171717] select-none">—</span>
+                      <span>{h}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-            {/* Architectural Highlights */}
-            <div className="space-y-3">
-              <span className="text-xs font-mono uppercase tracking-wider text-[#777777]">
-                Architectural Highlights
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-xs sm:text-sm text-[#777777]">
-                {project.highlights.map((h, hIdx) => (
-                  <div key={hIdx} className="flex items-start gap-2">
-                    <span className="text-[#171717] select-none">—</span>
-                    <span>{h}</span>
-                  </div>
+              {/* Tech Stack Pills */}
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                {project.technologies.map((t, tIdx) => (
+                  <span
+                    key={tIdx}
+                    className="px-2.5 py-1 text-xs font-mono bg-[#F7F6F2] border border-[#E7E7E7] text-[#171717] rounded-[4px]"
+                  >
+                    {t}
+                  </span>
                 ))}
               </div>
-            </div>
-
-            {/* Tech Stack Pills */}
-            <div className="flex flex-wrap items-center gap-2 pt-2">
-              {project.technologies.map((t, tIdx) => (
-                <span
-                  key={tIdx}
-                  className="px-2.5 py-1 text-xs font-mono bg-[#F7F6F2] border border-[#E7E7E7] text-[#171717] rounded-[4px]"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
 
       {/* Start Project CTA */}
       <div className="border-t border-[#E7E7E7] pt-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
@@ -186,6 +206,8 @@ export default function WorkView({ setActiveTab }) {
         <Button
           variant="primary"
           size="lg"
+          icon={ArrowRight}
+          iconPosition="right"
           onClick={() => setActiveTab('contact')}
         >
           Start a Project

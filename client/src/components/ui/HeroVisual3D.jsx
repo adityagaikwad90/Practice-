@@ -1,16 +1,32 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 
 /**
- * SolveSpace Abstract Metallic 3D Sculpture
- * Renders interconnected silver-chrome parametric ribbon geometries
- * with real-time studio specular lighting, smooth cursor parallax,
- * and graceful fallback for mobile / reduced-motion.
+ * SolveSpace Interactive Metallic Chrome Sculpture
+ * High-performance parametric 3D rendering with:
+ * - Real-time studio chrome specular lighting & depth sorting
+ * - Pointer-based inertia parallax
+ * - Framer Motion scroll-driven scale, rotation, and translation binding
+ * - Automated pause when off-screen (IntersectionObserver)
+ * - Mobile & reduced-motion optimizations
  */
 export default function HeroVisual3D() {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const mousePosRef = useRef({ x: 0, y: 0 });
   const currentPosRef = useRef({ x: 0, y: 0 });
+  const isVisibleRef = useRef(true);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Scroll-based parallax binding
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start']
+  });
+
+  const scrollScale = useTransform(scrollYProgress, [0, 1], [1, 0.84]);
+  const scrollY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const scrollOpacity = useTransform(scrollYProgress, [0, 0.85, 1], [1, 0.85, 0.2]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -20,6 +36,7 @@ export default function HeroVisual3D() {
 
     let animationFrameId;
     let time = 0;
+    const isMobile = window.innerWidth < 640;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const resize = () => {
@@ -33,14 +50,27 @@ export default function HeroVisual3D() {
     resize();
     window.addEventListener('resize', resize);
 
-    const numPoints = 260;
-    const ribbons = 3;
+    // Pause rendering when off-screen to preserve CPU/GPU
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting && !animationFrameId && !shouldReduceMotion) {
+          render();
+        }
+      },
+      { threshold: 0.05 }
+    );
 
-    // Check prefers-reduced-motion
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const isReducedMotion = mediaQuery.matches;
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    const numPoints = isMobile ? 160 : 260;
+    const ribbons = isMobile ? 2 : 3;
 
     const render = () => {
+      if (!isVisibleRef.current && !shouldReduceMotion) return;
+
       const width = canvas.width / dpr;
       const height = canvas.height / dpr;
       const cx = width / 2;
@@ -58,16 +88,16 @@ export default function HeroVisual3D() {
       ctx.ellipse(cx, cy + 140, 180, 45, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Smooth lerp mouse parallax on desktop
-      currentPosRef.current.x += (mousePosRef.current.x - currentPosRef.current.x) * 0.06;
-      currentPosRef.current.y += (mousePosRef.current.y - currentPosRef.current.y) * 0.06;
+      // Smooth lerp mouse parallax
+      currentPosRef.current.x += (mousePosRef.current.x - currentPosRef.current.x) * 0.05;
+      currentPosRef.current.y += (mousePosRef.current.y - currentPosRef.current.y) * 0.05;
 
       // Studio rotation angles
       const rotX = 0.52 + (currentPosRef.current.y * 0.12) + Math.sin(time * 0.28) * 0.04;
       const rotY = time * 0.38 + (currentPosRef.current.x * 0.16);
       const rotZ = Math.cos(time * 0.22) * 0.05;
 
-      // Draw 3 interconnected silver chrome ribbon loops
+      // Draw interconnected silver chrome ribbon loops
       for (let r = 0; r < ribbons; r++) {
         const ribbonPhase = (r * (Math.PI * 2)) / ribbons;
         const points = [];
@@ -140,7 +170,7 @@ export default function HeroVisual3D() {
         }
 
         // Specular chrome light gleams on the closest crests
-        for (let i = 0; i < points.length; i += 22) {
+        for (let i = 0; i < points.length; i += 24) {
           const p = points[i];
           if (p.z > 25) {
             ctx.beginPath();
@@ -154,7 +184,7 @@ export default function HeroVisual3D() {
         }
       }
 
-      if (!isReducedMotion) {
+      if (!shouldReduceMotion) {
         time += 0.011;
         animationFrameId = requestAnimationFrame(render);
       }
@@ -182,24 +212,33 @@ export default function HeroVisual3D() {
 
     return () => {
       window.removeEventListener('resize', resize);
+      observer.disconnect();
       if (container) {
         container.removeEventListener('mousemove', handleMouseMove);
         container.removeEventListener('mouseleave', handleMouseLeave);
       }
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
-    <div
+    <motion.div
       ref={containerRef}
-      className="relative w-full aspect-square max-w-[480px] lg:max-w-[540px] mx-auto flex items-center justify-center select-none hero-visual-entrance animate-sculpture-float"
+      style={{
+        scale: shouldReduceMotion ? 1 : scrollScale,
+        y: shouldReduceMotion ? 0 : scrollY,
+        opacity: shouldReduceMotion ? 1 : scrollOpacity
+      }}
+      initial={{ opacity: 0, scale: 0.94 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+      className="relative w-full aspect-square max-w-[480px] lg:max-w-[540px] mx-auto flex items-center justify-center select-none"
       aria-label="Abstract metallic engineering sculpture visual"
     >
       <canvas
         ref={canvasRef}
         className="w-full h-full relative z-10 cursor-default"
       />
-    </div>
+    </motion.div>
   );
 }

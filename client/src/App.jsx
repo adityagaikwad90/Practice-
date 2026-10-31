@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Layout Components
 import Navbar from './components/layout/Navbar';
@@ -191,84 +192,101 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white text-[#171717] flex flex-col font-sans relative selection:bg-[#171717] selection:text-white">
       {/* Initial Signature Monogram Entrance (Session-cached) */}
-      {initialLoading && (
-        <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300">
-          <LogoMonogram size={48} animated={true} />
-        </div>
-      )}
+      <AnimatePresence>
+        {initialLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center pointer-events-none"
+          >
+            <LogoMonogram size={48} animated={true} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Navigation Header */}
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* Main Content Area */}
-      <main className="flex-grow">
-        {activeTab === 'home' && (
-          <HomeView setActiveTab={setActiveTab} />
-        )}
+      {/* Main Content Area with Seamless Transitions */}
+      <main className="flex-grow overflow-x-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {activeTab === 'home' && (
+              <HomeView setActiveTab={setActiveTab} />
+            )}
 
-        {activeTab === 'services' && (
-          <ServicesView
-            services={services}
-            setFormService={setFormService}
-            setActiveTab={setActiveTab}
-          />
-        )}
+            {activeTab === 'services' && (
+              <ServicesView
+                services={services}
+                setFormService={setFormService}
+                setActiveTab={setActiveTab}
+              />
+            )}
 
-        {activeTab === 'work' && (
-          <WorkView setActiveTab={setActiveTab} />
-        )}
+            {activeTab === 'work' && (
+              <WorkView setActiveTab={setActiveTab} />
+            )}
 
-        {(activeTab === 'about' || activeTab === 'team') && (
-          <TeamView teamMembers={teamMembers} setActiveTab={setActiveTab} />
-        )}
+            {(activeTab === 'about' || activeTab === 'team') && (
+              <TeamView teamMembers={teamMembers} setActiveTab={setActiveTab} />
+            )}
 
-        {activeTab === 'careers' && (
-          <CareersView setActiveTab={setActiveTab} />
-        )}
+            {activeTab === 'careers' && (
+              <CareersView setActiveTab={setActiveTab} />
+            )}
 
-        {activeTab === 'estimator' && (
-          <EstimatorView
-            selectedService={selectedService}
-            setSelectedService={setSelectedService}
-            projectScale={projectScale}
-            setProjectScale={setProjectScale}
-            timelineUrgency={timelineUrgency}
-            setTimelineUrgency={setTimelineUrgency}
-            getEstimatedPrice={getEstimatedPrice}
-            setFormService={setFormService}
-            setFormBudget={setFormBudget}
-            setActiveTab={setActiveTab}
-          />
-        )}
+            {activeTab === 'estimator' && (
+              <EstimatorView
+                selectedService={selectedService}
+                setSelectedService={setSelectedService}
+                projectScale={projectScale}
+                setProjectScale={setProjectScale}
+                timelineUrgency={timelineUrgency}
+                setTimelineUrgency={setTimelineUrgency}
+                getEstimatedPrice={getEstimatedPrice}
+                setFormService={setFormService}
+                setFormBudget={setFormBudget}
+                setActiveTab={setActiveTab}
+              />
+            )}
 
-        {activeTab === 'contact' && (
-          <ContactView
-            formName={formName}
-            setFormName={setFormName}
-            formEmail={formEmail}
-            setFormEmail={setFormEmail}
-            formService={formService}
-            setFormService={setFormService}
-            formBudget={formBudget}
-            setFormBudget={setFormBudget}
-            formTimeline={formTimeline}
-            setFormTimeline={setFormTimeline}
-            formDetails={formDetails}
-            setFormDetails={setFormDetails}
-            formSubmitting={formSubmitting}
-            submitSuccess={submitSuccess}
-            setSubmitSuccess={setSubmitSuccess}
-            handleSubmitInquiry={handleSubmitInquiry}
-          />
-        )}
+            {activeTab === 'contact' && (
+              <ContactView
+                formName={formName}
+                setFormName={setFormName}
+                formEmail={formEmail}
+                setFormEmail={setFormEmail}
+                formService={formService}
+                setFormService={setFormService}
+                formBudget={formBudget}
+                setFormBudget={setFormBudget}
+                formTimeline={formTimeline}
+                setFormTimeline={setFormTimeline}
+                formDetails={formDetails}
+                setFormDetails={setFormDetails}
+                formSubmitting={formSubmitting}
+                submitSuccess={submitSuccess}
+                setSubmitSuccess={setSubmitSuccess}
+                handleSubmitInquiry={handleSubmitInquiry}
+              />
+            )}
 
-        {activeTab === 'inquiries' && (
-          <InquiriesView
-            inquiries={inquiries}
-            loadingInquiries={loadingInquiries}
-            fetchInquiries={fetchInquiries}
-          />
-        )}
+            {activeTab === 'inquiries' && (
+              <InquiriesView
+                inquiries={inquiries}
+                loadingInquiries={loadingInquiries}
+                fetchInquiries={fetchInquiries}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Minimal Footer */}

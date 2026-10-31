@@ -1,11 +1,16 @@
 import React from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../ui/Button';
 import HeroVisual3D from '../ui/HeroVisual3D';
+import TypographyReveal from '../ui/TypographyReveal';
+import IdeaToProductMotion from '../ui/IdeaToProductMotion';
+import EngineeringBlueprint from '../ui/EngineeringBlueprint';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 export default function HomeView({ setActiveTab }) {
   useScrollReveal();
+  const shouldReduceMotion = useReducedMotion();
 
   const services = [
     {
@@ -112,24 +117,41 @@ export default function HomeView({ setActiveTab }) {
          ========================================================================= */}
       <section className="pt-10 sm:pt-20 px-6 sm:px-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Staggered Entrance */}
+          {/* Left Column: Staggered Entrance & Line Clipping Typography */}
           <div className="lg:col-span-7 space-y-8 text-left">
-            <div className="hero-stagger-1">
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+            >
               <span className="eyebrow-minimal block">
                 SOLVESPACE TECHNOLOGIES
               </span>
-            </div>
+            </motion.div>
 
-            <h1 className="hero-stagger-2 text-4xl sm:text-6xl lg:text-[76px] font-normal tracking-tight text-[#171717] leading-[1.05] font-heading">
-              <span className="block">Move Ideas</span>
-              <span className="block">Into Production.</span>
-            </h1>
+            <TypographyReveal
+              as="h1"
+              lines={['Move Ideas', 'Into Production.']}
+              delay={0.15}
+              stagger={0.15}
+              className="text-4xl sm:text-6xl lg:text-[76px] font-normal tracking-tight text-[#171717] leading-[1.05] font-heading"
+            />
 
-            <p className="hero-stagger-3 text-base sm:text-lg text-[#777777] max-w-xl font-normal leading-relaxed">
+            <motion.p
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="text-base sm:text-lg text-[#777777] max-w-xl font-normal leading-relaxed"
+            >
               We design, build and deploy digital products, cloud infrastructure and software systems for ambitious businesses.
-            </p>
+            </motion.p>
 
-            <div className="hero-stagger-4 pt-2 flex flex-wrap items-center gap-4">
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="pt-2 flex flex-wrap items-center gap-4"
+            >
               <Button
                 variant="primary"
                 size="lg"
@@ -147,7 +169,7 @@ export default function HomeView({ setActiveTab }) {
               >
                 Explore Our Work
               </Button>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right Column: Abstract Chrome 3D Sculpture */}
@@ -158,14 +180,25 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 2 — INTRODUCTION
+          SECTION 2 — IDEA TO PRODUCT INTERACTIVE PIPELINE
+         ========================================================================= */}
+      <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 reveal-init">
+        <IdeaToProductMotion />
+      </section>
+
+      {/* =========================================================================
+          SECTION 3 — INTRODUCTION
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 reveal-init">
         <div className="max-w-3xl space-y-6">
           <span className="eyebrow-minimal block">ABOUT THE STUDIO</span>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#171717] font-heading leading-tight">
-            Engineering that turns ideas into reality.
-          </h2>
+          <TypographyReveal
+            as="h2"
+            lines={['Engineering that turns', 'ideas into reality.']}
+            delay={0.1}
+            stagger={0.12}
+            className="text-2xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#171717] font-heading leading-tight"
+          />
           <p className="text-sm sm:text-base text-[#777777] leading-relaxed">
             SolveSpace Technologies is an independent digital engineering startup. We eliminate layers of middle management and agency overhead, partnering directly with founders and product teams to author production-ready cloud, web, and mobile software.
           </p>
@@ -173,7 +206,7 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 3 — SERVICES
+          SECTION 4 — SERVICES CAPABILITIES
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -222,7 +255,14 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 4 — SELECTED WORK
+          SECTION 5 — ANIMATED ENGINEERING BLUEPRINT
+         ========================================================================= */}
+      <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 reveal-init">
+        <EngineeringBlueprint />
+      </section>
+
+      {/* =========================================================================
+          SECTION 6 — SELECTED WORK
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -277,7 +317,7 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 5 — HOW WE WORK
+          SECTION 7 — HOW WE WORK
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
         <div className="space-y-2">
@@ -308,7 +348,7 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 6 — FOUNDERS
+          SECTION 8 — FOUNDERS
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
         <div className="space-y-2">
@@ -349,13 +389,15 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 7 — CONTACT CTA
+          SECTION 9 — CONTACT CTA
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 reveal-init">
         <div className="bg-[#F7F6F2] border border-[#E7E7E7] rounded-lg p-10 sm:p-16 text-center space-y-6 max-w-4xl mx-auto hover:border-[#B5B5B5] transition-colors duration-300">
-          <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-[#171717] font-heading">
-            Have something in mind?
-          </h2>
+          <TypographyReveal
+            as="h2"
+            lines={['Have something in mind?']}
+            className="text-3xl sm:text-5xl font-normal tracking-tight text-[#171717] font-heading"
+          />
           <p className="text-sm sm:text-base text-[#777777] max-w-md mx-auto">
             Let's build something meaningful together.
           </p>

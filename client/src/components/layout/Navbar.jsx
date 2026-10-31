@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import LogoMonogram from '../ui/LogoMonogram';
 
 export default function Navbar({ activeTab, setActiveTab }) {
@@ -51,31 +52,33 @@ export default function Navbar({ activeTab, setActiveTab }) {
                   <button
                     key={link.id}
                     onClick={() => setActiveTab(link.id)}
-                    className={`transition-colors duration-200 cursor-pointer py-1 relative group ${
+                    className={`transition-colors duration-200 cursor-pointer py-1 relative ${
                       isActive
                         ? 'text-[#171717] font-medium'
                         : 'text-[#777777] hover:text-[#171717]'
                     }`}
                   >
                     <span>{link.label}</span>
-                    <span
-                      className={`absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#171717] transition-all duration-200 ${
-                        isActive
-                          ? 'opacity-100 scale-x-100'
-                          : 'opacity-0 scale-x-50 group-hover:opacity-40 group-hover:scale-x-100'
-                      }`}
-                    />
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeNavIndicator"
+                        className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#171717]"
+                        transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                      />
+                    )}
                   </button>
                 );
               })}
             </div>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setActiveTab('contact')}
-              className="btn-primary-mono px-4 py-2 text-xs sm:text-sm cursor-pointer active:scale-[0.98] transition-transform"
+              className="btn-primary-mono px-4 py-2 text-xs sm:text-sm cursor-pointer"
             >
               Contact
-            </button>
+            </motion.button>
           </div>
 
           {/* Mobile Menu Button with standalone S / hamburger */}
@@ -92,45 +95,54 @@ export default function Navbar({ activeTab, setActiveTab }) {
         </div>
 
         {/* Mobile Dropdown with smooth entrance */}
-        {mobileMenuOpen && (
-          <div className="md:hidden pt-4 pb-3 border-t border-[#E7E7E7] mt-3 space-y-2 text-sm page-transition">
-            <button
-              onClick={() => {
-                setActiveTab('home');
-                setMobileMenuOpen(false);
-              }}
-              className="block w-full text-left py-2 text-[#777777] hover:text-[#171717] transition-colors"
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="md:hidden pt-4 pb-3 border-t border-[#E7E7E7] mt-3 space-y-2 text-sm overflow-hidden"
             >
-              Home
-            </button>
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => {
-                  setActiveTab(link.id);
-                  setMobileMenuOpen(false);
-                }}
-                className={`block w-full text-left py-2 transition-colors ${
-                  activeTab === link.id ? 'text-[#171717] font-medium' : 'text-[#777777] hover:text-[#171717]'
-                }`}
-              >
-                {link.label}
-              </button>
-            ))}
-            <div className="pt-2">
               <button
                 onClick={() => {
-                  setActiveTab('contact');
+                  setActiveTab('home');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full btn-primary-mono py-2.5 text-center text-xs"
+                className="block w-full text-left py-2 text-[#777777] hover:text-[#171717] transition-colors"
               >
-                Contact
+                Home
               </button>
-            </div>
-          </div>
-        )}
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => {
+                    setActiveTab(link.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`block w-full text-left py-2 transition-colors ${
+                    activeTab === link.id ? 'text-[#171717] font-medium' : 'text-[#777777] hover:text-[#171717]'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              ))}
+              <div className="pt-2">
+                <button
+                  onClick={() => {
+                    setActiveTab('contact');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full btn-primary-mono py-2.5 text-center text-xs"
+                >
+                  Contact
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </>
   );
 }
+
