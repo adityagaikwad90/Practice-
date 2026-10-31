@@ -17,38 +17,25 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
+          command_timeout: 20m
           script: |
-            echo "========== STARTING SOLVESPACE TECH DEPLOYMENT =========="
+            set -e
 
-            # Directory fallback
-            if [ -d "/home/ec2-user/Practice-" ]; then
-              cd /home/ec2-user/Practice-
-            elif [ -d "/home/ubuntu/Practice-" ]; then
-              cd /home/ubuntu/Practice-
-            else
-              cd ~/Practice- || cd .
-            fi
+            echo "========== STARTING SOLVESPACE DEPLOYMENT =========="
 
-            echo "Deployment Directory:"
-            pwd
+            cd /home/ec2-user/Practice-
 
-            echo "Fetching latest changes from Git..."
-            git fetch --all
+            echo "Fetching latest changes..."
+            git fetch origin main
             git reset --hard origin/main
 
-            echo "Building and restarting Docker containers..."
-            if command -v docker-compose &> /dev/null; then
-              docker-compose down
-              docker-compose up --build -d
-            else
-              docker compose down
-              docker compose up --build -d
-            fi
+            echo "Building Docker images..."
+            docker compose build
 
-            echo "Pruning unused Docker assets..."
-            docker image prune -f
+            echo "Starting containers..."
+            docker compose up -d --remove-orphans
 
-            echo "Verifying running Docker containers:"
-            docker ps
+            echo "Checking containers..."
+            docker compose ps
 
-            echo "========== DEPLOYMENT SUCCESSFUL =========="
+            echo "Deployment completed successfully!"
