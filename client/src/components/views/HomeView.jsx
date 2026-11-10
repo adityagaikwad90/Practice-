@@ -1,5 +1,18 @@
 import React from 'react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle2,
+  ShieldCheck,
+  Zap,
+  Lock,
+  Code2,
+  Cpu,
+  Clock,
+  Sparkles,
+  Terminal,
+  Calculator
+} from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../ui/Button';
 import HeroVisual3D from '../ui/HeroVisual3D';
@@ -12,100 +25,152 @@ export default function HomeView({ setActiveTab }) {
   useScrollReveal();
   const shouldReduceMotion = useReducedMotion();
 
+  // Highlighted Value Propositions (Why Startups Partner With Us)
+  const clientAdvantages = [
+    {
+      icon: Code2,
+      badge: 'NO JUNIORS',
+      title: 'Direct Founder Execution',
+      desc: 'You work directly with senior founding engineers. No account managers, middle-layer agency bloat, or outsourced junior developers.'
+    },
+    {
+      icon: Lock,
+      badge: '100% OWNERSHIP',
+      title: 'Complete IP & Repo Transfer',
+      desc: 'You retain full intellectual property from Day 1. Full access to GitHub repos, Dockerfiles, AWS infrastructure, and documentation.'
+    },
+    {
+      icon: Zap,
+      badge: 'RAPID SPRINT',
+      title: 'Production Velocity',
+      desc: 'Fast 2-week sprint cycles with live staging builds delivered every Friday. We prioritize working software over endless slide decks.'
+    },
+    {
+      icon: ShieldCheck,
+      badge: 'CLOUD NATIVE',
+      title: 'Enterprise-Grade Security',
+      desc: 'Pre-architected for security, SSL/TLS automation, encrypted S3 buckets, rate-limiting, and zero-downtime CI/CD container clusters.'
+    }
+  ];
+
+  // Core Capabilities with Client-focused deliverables
   const services = [
     {
       id: 'cloud-solutions',
       title: 'Cloud & DevOps Engineering',
-      desc: 'Containerized AWS and GCP cloud infrastructure, Docker clusters, automated CI/CD pipelines, and zero-downtime deployments.'
+      tagline: 'AWS & GCP Infrastructure • Docker Microservices',
+      desc: 'We architect and provision resilient cloud environments with automated CI/CD pipelines, containerized Docker clusters, and zero-downtime Nginx reverse proxies.',
+      deliverables: ['AWS EC2 & ECS Clusters', 'Docker & Compose Orchestration', 'Automated GitHub Actions CI/CD', 'SSL/TLS & Security Hardening'],
+      idealFor: 'High-traffic apps, microservices & reliable hosting'
     },
     {
       id: 'web-dev',
-      title: 'Web Development',
-      desc: 'High-performance React and Next.js applications engineered for speed, clean component architectures, and responsive user experiences.'
+      title: 'Web Platform Development',
+      tagline: 'React 18 • Next.js • Tailwind CSS Architecture',
+      desc: 'High-performance Single Page Applications and customer portals engineered for sub-second page loads, responsive UX, and Core Web Vitals (95+ Lighthouse).',
+      deliverables: ['React 18 & Next.js SPAs', 'Scalable UI Design Systems', 'REST & GraphQL Integrations', 'SEO & Performance Tuning'],
+      idealFor: 'SaaS platforms, client portals & interactive web apps'
     },
     {
       id: 'android-dev',
-      title: 'Android Development',
-      desc: 'Native 120 FPS Android mobile applications built in Kotlin and Jetpack Compose with offline-first synchronization.'
+      title: 'Android Native Engineering',
+      tagline: 'Kotlin • Jetpack Compose • 120 FPS Mobile UI',
+      desc: 'Native Android applications crafted with modern Kotlin and declarative Jetpack Compose. Built with offline-first Room database sync and Google Play Store delivery.',
+      deliverables: ['Declarative Compose UI', 'Offline-First Room Sync', 'Kotlin Coroutines & Flow', 'Play Store Release Management'],
+      idealFor: 'High-framerate mobile apps & offline-capable products'
     },
     {
       id: 'backend-dev',
-      title: 'Backend Engineering',
-      desc: 'Robust Node.js and Express REST APIs, distributed database schemas, Redis caching, and encrypted cloud storage.'
+      title: 'Backend Systems & APIs',
+      tagline: 'Node.js Express • PostgreSQL • Redis Distributed Cache',
+      desc: 'Resilient backend architectures handling high-throughput requests. From relational PostgreSQL schemas to sub-millisecond Redis caching and Amazon S3 asset pipelines.',
+      deliverables: ['Scalable RESTful Microservices', 'Relational PostgreSQL Modeling', 'Sub-ms Redis Caching Layers', 'Amazon S3 Encrypted Storage'],
+      idealFor: 'High-throughput APIs, database scale & secure storage'
     }
   ];
 
+  // Featured Engineering Work with client-centric metrics
   const projects = [
     {
       id: 'cloud-cluster',
       name: 'SolveSpace Cloud Cluster & CI/CD',
-      category: 'Cloud & DevOps',
-      desc: 'High-availability AWS EC2 environment running containerized microservices behind an Nginx reverse proxy with automated GitHub Actions delivery.',
+      category: 'Cloud Infrastructure & DevOps',
+      metric: 'Sub-20ms Cluster Response',
+      desc: 'High-availability AWS EC2 environment running containerized Docker Compose microservices behind an Nginx reverse proxy with automated GitHub Actions delivery.',
       tech: 'AWS EC2 • Docker • Nginx • GitHub Actions'
     },
     {
       id: 'client-portal',
-      name: 'Startup Recruitment & Inquiries Portal',
-      category: 'Web Platform',
-      desc: 'Fullstack web application integrating Amazon S3 for secure encrypted resume uploads, Express REST APIs, and live inquiry tracking.',
-      tech: 'React • Express • AWS S3 • Tailwind'
+      name: 'Startup Recruitment & S3 Inquiries Portal',
+      category: 'Fullstack Web Platform',
+      metric: 'Encrypted S3 Private Pipeline',
+      desc: 'Fullstack web application integrating Amazon S3 for secure encrypted PDF resume uploads, Express REST APIs, and instant reference ID status telemetry.',
+      tech: 'React 18 • Express • AWS S3 • Tailwind'
     },
     {
       id: 'android-engine',
-      name: 'Native Android Mobile Architecture',
-      category: 'Android Development',
-      desc: 'Fluid 120 FPS Android architecture featuring declarative Jetpack Compose, Kotlin Coroutines, and offline Room DB sync.',
+      name: 'Native Android High-Framerate Suite',
+      category: 'Android Mobile Engineering',
+      metric: 'Fluid 120 FPS UI Architecture',
+      desc: 'Production Android mobile framework featuring declarative Jetpack Compose, Kotlin Coroutines, and offline Room DB sync targeting Android 14+.',
       tech: 'Kotlin • Jetpack Compose • Room DB • MVVM'
     },
     {
       id: 'media-engine',
       name: 'Automated Media Rendering Engine',
       category: 'Backend & Media Systems',
-      desc: 'Automated video transcoding pipeline producing 4K 60FPS product reels and promotional media assets for startup user acquisition.',
+      metric: '4K 60FPS Video Transcoding',
+      desc: 'Automated video rendering pipeline creating 4K product demo reels and motion graphics assets engineered for startup user acquisition.',
       tech: 'Node.js • FFmpeg • Cloud Storage'
     }
   ];
 
-  const processSteps = [
+  // 4-Step Engagement Roadmap
+  const engagementSteps = [
     {
       step: '01',
-      name: 'Discover',
-      desc: 'We analyze your requirements, establish technical scope, and set clear milestones.'
+      title: 'Technical Scoping',
+      timeframe: 'Day 1 – 2',
+      desc: 'We review your requirements, determine technical feasibility, and provide a fixed milestone roadmap.'
     },
     {
       step: '02',
-      name: 'Architect',
-      desc: 'We map system diagrams, database models, and cloud infrastructure before writing code.'
+      title: 'Architecture Blueprint',
+      timeframe: 'Week 1',
+      desc: 'We map system diagrams, database models, and cloud infrastructure before writing production code.'
     },
     {
       step: '03',
-      name: 'Build',
-      desc: 'Our founding engineers author clean, well-tested code through direct weekly sprints.'
+      title: 'Sprint Development',
+      timeframe: 'Weeks 2 – 4',
+      desc: 'Our founding engineers author clean, typed code through direct weekly sprints with testable Friday builds.'
     },
     {
       step: '04',
-      name: 'Deploy',
-      desc: 'We launch to production on AWS or Google Play with continuous monitoring.'
+      title: 'Production Handover',
+      timeframe: 'Deployment Day',
+      desc: 'We launch to live AWS / Google Play, handover all repository access, and provide documentation.'
     }
   ];
 
+  // Founding Engineers
   const founders = [
     {
       name: 'Aditya Gaikwad',
-      role: 'Cloud Engineering',
-      desc: 'Specializing in AWS EC2, Docker microservices, automated CI/CD delivery, and secure cloud networking.',
+      role: 'Cloud Engineering Lead',
+      specialty: 'AWS EC2, Docker Clusters, Nginx SSL, CI/CD Pipelines & Security',
       email: 'aditya@solvespace.online'
     },
     {
       name: 'Mayur Choudhary',
-      role: 'Android Development',
-      desc: 'Specializing in native Kotlin development, Jetpack Compose UI, offline cache, and Play Store releases.',
+      role: 'Android Solutions Architect',
+      specialty: 'Native Kotlin, Jetpack Compose, Offline Room Cache & Play Store Releases',
       email: 'mayur@solvespace.online'
     },
     {
       name: 'Manish Mali',
-      role: 'Backend Engineering',
-      desc: 'Specializing in Node.js Express APIs, PostgreSQL database architectures, and high-throughput systems.',
+      role: 'Backend Engineering Lead',
+      specialty: 'Node.js Express REST APIs, PostgreSQL Schemas, Redis & Amazon S3',
       email: 'manish@solvespace.online'
     }
   ];
@@ -113,39 +178,43 @@ export default function HomeView({ setActiveTab }) {
   return (
     <div className="space-y-24 sm:space-y-36 pb-20 page-transition">
       {/* =========================================================================
-          SECTION 1 — HERO CINEMATIC ENTRANCE
+          SECTION 1 — HERO: CLEAR STARTUP VALUE PROPOSITION
          ========================================================================= */}
-      <section className="pt-10 sm:pt-20 px-6 sm:px-10 max-w-7xl mx-auto">
+      <section className="pt-8 sm:pt-16 px-6 sm:px-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Staggered Entrance & Line Clipping Typography */}
-          <div className="lg:col-span-7 space-y-8 text-left">
+          {/* Left Column: Clear Value Prop & CTAs */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            {/* Startup Status Pill */}
             <motion.div
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
+              className="inline-flex items-center gap-2 px-3 py-1 bg-[#F7F6F2] border border-[#E7E7E7] rounded-full text-xs font-mono text-[#171717]"
             >
-              <span className="eyebrow-minimal block">
-                SOLVESPACE TECHNOLOGIES
-              </span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>DIRECT FOUNDER ENGINEERING STUDIO</span>
             </motion.div>
 
+            {/* Editorial Headline */}
             <TypographyReveal
               as="h1"
-              lines={['Move Ideas', 'Into Production.']}
+              lines={['We Architect & Build', 'Production Software.']}
               delay={0.15}
               stagger={0.15}
-              className="text-4xl sm:text-6xl lg:text-[76px] font-normal tracking-tight text-[#171717] leading-[1.05] font-heading"
+              className="text-4xl sm:text-6xl lg:text-[72px] font-normal tracking-tight text-[#171717] leading-[1.05] font-heading"
             />
 
+            {/* Client-Centric Subtitle */}
             <motion.p
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="text-base sm:text-lg text-[#777777] max-w-xl font-normal leading-relaxed"
             >
-              We design, build and deploy digital products, cloud infrastructure and software systems for ambitious businesses.
+              SolveSpace Technologies partners with founders and scaling teams to engineer production-ready <strong className="text-[#171717] font-medium">Cloud Infrastructure</strong>, <strong className="text-[#171717] font-medium">Web Platforms</strong>, <strong className="text-[#171717] font-medium">Native Android Apps</strong>, and <strong className="text-[#171717] font-medium">Backend APIs</strong> — delivered in weeks, not months.
             </motion.p>
 
+            {/* CTAs */}
             <motion.div
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -165,10 +234,21 @@ export default function HomeView({ setActiveTab }) {
               <Button
                 variant="secondary"
                 size="lg"
-                onClick={() => setActiveTab('work')}
+                onClick={() => setActiveTab('estimator')}
               >
-                Explore Our Work
+                Instant Cost Estimator
               </Button>
+            </motion.div>
+
+            {/* Response Time & Guarantee Note */}
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="text-xs font-mono text-[#777777] flex items-center gap-2 pt-1"
+            >
+              <Clock className="w-3.5 h-3.5 text-[#171717]" />
+              <span>Founders review and respond to inquiries within 24 hours</span>
             </motion.div>
           </div>
 
@@ -177,43 +257,114 @@ export default function HomeView({ setActiveTab }) {
             <HeroVisual3D />
           </div>
         </div>
+
+        {/* Startup Credibility Metrics Strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.7 }}
+          className="mt-14 pt-8 border-t border-[#E7E7E7] grid grid-cols-2 md:grid-cols-4 gap-6 text-left"
+        >
+          <div className="space-y-1">
+            <div className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading">
+              50+
+            </div>
+            <p className="text-xs font-mono text-[#777777]">
+              Microservices & Apps Shipped
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading">
+              99.98%
+            </div>
+            <p className="text-xs font-mono text-[#777777]">
+              Production Uptime SLA
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading">
+              &lt; 20ms
+            </div>
+            <p className="text-xs font-mono text-[#777777]">
+              Average API Cluster Latency
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading">
+              100%
+            </div>
+            <p className="text-xs font-mono text-[#777777]">
+              Source Code & IP Handover
+            </p>
+          </div>
+        </motion.div>
       </section>
 
       {/* =========================================================================
-          SECTION 2 — IDEA TO PRODUCT INTERACTIVE PIPELINE
+          SECTION 2 — THE SOLVESPACE ADVANTAGE: WHY CLIENTS CHOOSE US
+         ========================================================================= */}
+      <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-2">
+            <span className="eyebrow-minimal block">THE SOLVESPACE ADVANTAGE</span>
+            <h2 className="text-2xl sm:text-4xl font-normal text-[#171717] font-heading">
+              Built for speed. Engineered for scale.
+            </h2>
+          </div>
+          <p className="text-xs sm:text-sm text-[#777777] max-w-md">
+            We eliminate layers of middle management and bureaucratic overhead, delivering production software with complete clarity.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {clientAdvantages.map((adv, idx) => {
+            const Icon = adv.icon;
+            return (
+              <div
+                key={idx}
+                className="mono-card p-6 rounded-lg space-y-4 hover:border-[#171717] hover:shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="p-2 bg-[#F7F6F2] rounded text-[#171717]">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className="text-[10px] font-mono font-medium text-[#777777] tracking-wider">
+                      {adv.badge}
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-medium text-[#171717] font-heading">
+                    {adv.title}
+                  </h3>
+                  <p className="text-xs text-[#777777] leading-relaxed">
+                    {adv.desc}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 3 — IDEA TO PRODUCT INTERACTIVE PIPELINE
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 reveal-init">
         <IdeaToProductMotion />
       </section>
 
       {/* =========================================================================
-          SECTION 3 — INTRODUCTION
-         ========================================================================= */}
-      <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 reveal-init">
-        <div className="max-w-3xl space-y-6">
-          <span className="eyebrow-minimal block">ABOUT THE STUDIO</span>
-          <TypographyReveal
-            as="h2"
-            lines={['Engineering that turns', 'ideas into reality.']}
-            delay={0.1}
-            stagger={0.12}
-            className="text-2xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#171717] font-heading leading-tight"
-          />
-          <p className="text-sm sm:text-base text-[#777777] leading-relaxed">
-            SolveSpace Technologies is an independent digital engineering startup. We eliminate layers of middle management and agency overhead, partnering directly with founders and product teams to author production-ready cloud, web, and mobile software.
-          </p>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SECTION 4 — SERVICES CAPABILITIES
+          SECTION 4 — CAPABILITIES & DELIVERABLES (WHAT WE BUILD)
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-2">
-            <span className="eyebrow-minimal block">CAPABILITIES</span>
+            <span className="eyebrow-minimal block">FOCUSED CAPABILITIES</span>
             <h2 className="text-2xl sm:text-4xl font-normal text-[#171717] font-heading">
-              What we build.
+              What we build for you.
             </h2>
           </div>
           <button
@@ -221,34 +372,72 @@ export default function HomeView({ setActiveTab }) {
             onClick={() => setActiveTab('services')}
             className="group text-xs sm:text-sm text-[#171717] hover:underline flex items-center gap-1 cursor-pointer font-medium"
           >
-            <span>View all services</span>
+            <span>View detailed deliverables</span>
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service, idx) => (
             <div
               key={service.id}
-              className={`reveal-init reveal-delay-${(idx % 4) + 1} border-t border-[#E7E7E7] hover:border-[#171717] pt-6 space-y-3 transition-colors duration-300 group`}
+              className={`reveal-init reveal-delay-${(idx % 4) + 1} mono-card-warm p-8 rounded-lg space-y-6 flex flex-col justify-between hover:border-[#171717] hover:shadow-[0_4px_24px_rgba(0,0,0,0.03)] transition-all duration-300 group`}
             >
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-[#777777]">0{idx + 1}</span>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono text-[#777777]">0{idx + 1} • CORE DISCIPLINE</span>
+                  <span className="text-[11px] font-mono text-[#171717] bg-white px-2 py-0.5 rounded border border-[#E7E7E7]">
+                    {service.idealFor}
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-medium text-[#171717] font-heading group-hover:text-black transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-xs font-mono text-[#777777] mt-1">
+                    {service.tagline}
+                  </p>
+                </div>
+
+                <p className="text-xs sm:text-sm text-[#777777] leading-relaxed">
+                  {service.desc}
+                </p>
+
+                {/* Key Deliverables Bullet Points */}
+                <div className="space-y-2 pt-2 border-t border-[#E7E7E7]">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#171717] font-medium block">
+                    Key Deliverables:
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#777777]">
+                    {service.deliverables.map((deliv, dIdx) => (
+                      <div key={dIdx} className="flex items-center gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#171717] shrink-0" />
+                        <span>{deliv}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-[#E7E7E7] flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('contact')}
+                  className="btn-primary-mono px-4 py-2 text-xs flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>Request Scope</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+
                 <button
                   type="button"
                   onClick={() => setActiveTab('services')}
-                  className="text-xs text-[#777777] group-hover:text-[#171717] flex items-center gap-1 cursor-pointer transition-colors"
+                  className="text-xs font-mono text-[#777777] hover:text-[#171717] transition-colors"
                 >
-                  <span>Explore</span>
-                  <ArrowUpRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  Learn more →
                 </button>
               </div>
-              <h3 className="text-lg sm:text-xl font-medium text-[#171717] font-heading">
-                {service.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-[#777777] leading-relaxed">
-                {service.desc}
-              </p>
             </div>
           ))}
         </div>
@@ -262,14 +451,14 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 6 — SELECTED WORK
+          SECTION 6 — SELECTED WORK & CLIENT PROOF
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-2">
-            <span className="eyebrow-minimal block">PORTFOLIO</span>
+            <span className="eyebrow-minimal block">PROVEN ENGINEERING</span>
             <h2 className="text-2xl sm:text-4xl font-normal text-[#171717] font-heading">
-              Things we've built.
+              Featured work & architectures.
             </h2>
           </div>
           <button
@@ -286,12 +475,18 @@ export default function HomeView({ setActiveTab }) {
           {projects.map((project, idx) => (
             <div
               key={project.id}
-              className={`reveal-init reveal-delay-${(idx % 4) + 1} mono-card-warm p-8 rounded-lg space-y-6 flex flex-col justify-between group transition-all duration-300 hover:border-[#B5B5B5] hover:shadow-[0_4px_20px_rgba(0,0,0,0.03)]`}
+              className={`reveal-init reveal-delay-${(idx % 4) + 1} mono-card p-8 rounded-lg space-y-6 flex flex-col justify-between group transition-all duration-300 hover:border-[#171717] hover:shadow-[0_4px_20px_rgba(0,0,0,0.03)]`}
             >
               <div className="space-y-3">
-                <span className="text-xs font-mono uppercase tracking-wider text-[#777777]">
-                  {project.category}
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#777777]">
+                    {project.category}
+                  </span>
+                  <span className="text-xs font-mono text-[#171717] font-medium px-2 py-0.5 bg-[#F7F6F2] rounded border border-[#E7E7E7]">
+                    {project.metric}
+                  </span>
+                </div>
+
                 <h3 className="text-xl sm:text-2xl font-medium text-[#171717] font-heading group-hover:text-black transition-colors">
                   {project.name}
                 </h3>
@@ -317,27 +512,32 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 7 — HOW WE WORK
+          SECTION 7 — 4-STEP ENGAGEMENT ROADMAP
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
         <div className="space-y-2">
-          <span className="eyebrow-minimal block">METHODOLOGY</span>
+          <span className="eyebrow-minimal block">HOW WE PARTNER WITH YOU</span>
           <h2 className="text-2xl sm:text-4xl font-normal text-[#171717] font-heading">
-            How we work.
+            A transparent, sprint-based roadmap.
           </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {processSteps.map((step, idx) => (
+          {engagementSteps.map((step) => (
             <div
               key={step.step}
-              className={`reveal-init reveal-delay-${(idx % 4) + 1} border-t border-[#171717] pt-4 space-y-2`}
+              className="border-t border-[#171717] pt-4 space-y-2.5"
             >
-              <span className="text-xs font-mono font-medium text-[#171717] block">
-                {step.step}
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-medium text-[#171717]">
+                  {step.step}
+                </span>
+                <span className="text-[10px] font-mono text-[#777777] bg-[#F7F6F2] px-2 py-0.5 rounded">
+                  {step.timeframe}
+                </span>
+              </div>
               <h3 className="text-base font-medium text-[#171717] font-heading">
-                {step.name}
+                {step.title}
               </h3>
               <p className="text-xs sm:text-sm text-[#777777] leading-relaxed">
                 {step.desc}
@@ -348,14 +548,19 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 8 — FOUNDERS
+          SECTION 8 — FOUNDING ENGINEERS (DIRECT ARCHITECT ACCESS)
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 space-y-12 reveal-init">
-        <div className="space-y-2">
-          <span className="eyebrow-minimal block">ENGINEERING TEAM</span>
-          <h2 className="text-2xl sm:text-4xl font-normal text-[#171717] font-heading">
-            The engineers behind SolveSpace.
-          </h2>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-2">
+            <span className="eyebrow-minimal block">DIRECT ARCHITECT ACCESS</span>
+            <h2 className="text-2xl sm:text-4xl font-normal text-[#171717] font-heading">
+              Meet the founders writing your code.
+            </h2>
+          </div>
+          <p className="text-xs sm:text-sm font-mono text-[#777777]">
+            Dedicated Slack channel with founders on every client engagement
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -373,7 +578,7 @@ export default function HomeView({ setActiveTab }) {
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-[#777777] leading-relaxed">
-                {founder.desc}
+                {founder.specialty}
               </p>
               <div className="pt-2">
                 <a
@@ -389,28 +594,66 @@ export default function HomeView({ setActiveTab }) {
       </section>
 
       {/* =========================================================================
-          SECTION 9 — CONTACT CTA
+          SECTION 9 — INSTANT COST ESTIMATOR PROMPT
          ========================================================================= */}
       <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 reveal-init">
-        <div className="bg-[#F7F6F2] border border-[#E7E7E7] rounded-lg p-10 sm:p-16 text-center space-y-6 max-w-4xl mx-auto hover:border-[#B5B5B5] transition-colors duration-300">
-          <TypographyReveal
-            as="h2"
-            lines={['Have something in mind?']}
-            className="text-3xl sm:text-5xl font-normal tracking-tight text-[#171717] font-heading"
-          />
-          <p className="text-sm sm:text-base text-[#777777] max-w-md mx-auto">
-            Let's build something meaningful together.
+        <div className="mono-card-warm border border-[#E7E7E7] rounded-xl p-8 sm:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 hover:border-[#B5B5B5] transition-all">
+          <div className="space-y-3 max-w-xl">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-white border border-[#E7E7E7] rounded text-xs font-mono text-[#171717]">
+              <Calculator className="w-3.5 h-3.5 text-[#171717]" />
+              <span>TRANSPARENT PRICING CALCULATOR</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading">
+              Need an instant scope and budget estimate?
+            </h3>
+            <p className="text-sm text-[#777777] leading-relaxed">
+              Use our interactive engineering calculator to tailor your required services, timeline urgency, and scale. Receive an indicative scope breakdown in seconds.
+            </p>
+          </div>
+
+          <Button
+            variant="primary"
+            size="lg"
+            icon={ArrowRight}
+            iconPosition="right"
+            onClick={() => setActiveTab('estimator')}
+            className="shrink-0"
+          >
+            Calculate Project Scope
+          </Button>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 10 — FINAL CALL TO ACTION
+         ========================================================================= */}
+      <section className="px-6 sm:px-10 max-w-7xl mx-auto border-t border-[#E7E7E7] pt-16 sm:pt-24 reveal-init">
+        <div className="bg-[#171717] text-white rounded-xl p-10 sm:p-20 text-center space-y-6 max-w-4xl mx-auto shadow-2xl">
+          <span className="text-xs font-mono text-neutral-400 tracking-wider uppercase block">
+            READY TO SHIP?
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white font-heading">
+            Let's build your next digital product.
+          </h2>
+          <p className="text-sm sm:text-base text-neutral-400 max-w-lg mx-auto leading-relaxed">
+            Reach out to schedule an initial scoping session directly with our founding engineers. We review specifications and provide architectural guidance within 24 hours.
           </p>
-          <div className="pt-2">
-            <Button
-              variant="primary"
-              size="lg"
-              icon={ArrowRight}
-              iconPosition="right"
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+            <button
+              type="button"
               onClick={() => setActiveTab('contact')}
+              className="px-6 py-3 bg-white text-[#171717] font-medium text-sm sm:text-base rounded-md hover:bg-neutral-100 transition-all cursor-pointer flex items-center gap-2 active:scale-[0.98]"
             >
-              Start a Project
-            </Button>
+              <span>Schedule Technical Review</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('work')}
+              className="px-6 py-3 bg-transparent text-white border border-neutral-700 font-medium text-sm sm:text-base rounded-md hover:bg-white/10 transition-all cursor-pointer"
+            >
+              Explore Portfolio
+            </button>
           </div>
         </div>
       </section>
