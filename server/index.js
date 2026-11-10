@@ -487,23 +487,37 @@ app.use((err, req, res, next) => {
   next();
 });
 
-// Start Server
-const server = app.listen(PORT, () => {
-  console.log(`🚀 SolveSpace Technologies Server Running`);
-  console.log(`📦 Version: 2.0.0 | Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🌍 Server running on http://localhost:${PORT}`);
-  console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
-  console.log(`💼 Careers API: http://localhost:${PORT}/api/jobs`);
-  console.log(`☁️  AWS S3 Bucket: ${S3_BUCKET} (${isRealAwsConfigured() ? 'Active AWS Credentials' : 'Mock/Dev Mode Ready'})`);
+// Root and Health Fallback
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    app: 'SolveSpace Technologies API',
+    version: '2.0.0',
+    health: '/api/health'
+  });
 });
 
-server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`\n❌ Error: Port ${PORT} is already in use.`);
-  } else {
-    console.error('Server error:', err);
-  }
-});
+// Start Server if run directly in Node / Docker
+if (require.main === module || !process.env.VERCEL) {
+  const server = app.listen(PORT, () => {
+    console.log(`🚀 SolveSpace Technologies Server Running`);
+    console.log(`📦 Version: 2.0.0 | Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🌍 Server running on http://localhost:${PORT}`);
+    console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`💼 Careers API: http://localhost:${PORT}/api/jobs`);
+    console.log(`☁️  AWS S3 Bucket: ${S3_BUCKET} (${isRealAwsConfigured() ? 'Active AWS Credentials' : 'Mock/Dev Mode Ready'})`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n❌ Error: Port ${PORT} is already in use.`);
+    } else {
+      console.error('Server error:', err);
+    }
+  });
+}
+
+module.exports = app;
 
 
 
