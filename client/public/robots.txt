@@ -6,3 +6,4 @@ Disallow: /inquiries
 
 # Search engine sitemap location
 Sitemap: https://solvespace.online/sitemap.xml
+
