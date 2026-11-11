@@ -1,0 +1,17 @@
+{
+  "name": "SolveSpace Technologies",
+  "short_name": "SolveSpace",
+  "description": "Digital engineering studio building production cloud, web, and mobile systems for ambitious businesses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#171717",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#F7F6F2"/>
+
+  <!-- Border & Frame -->
+  <rect x="30" y="30" width="1140" height="570" rx="16" fill="#FFFFFF" stroke="#E7E7E7" stroke-width="2"/>
+
+  <!-- Subtle Blueprint Grid Pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#F0EFEA" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect x="32" y="32" width="1136" height="566" rx="14" fill="url(#grid)" />
+
+  <!-- Monogram Logo (120x120) -->
+  <g transform="translate(100, 110)">
+    <rect width="96" height="96" rx="20" fill="#171717"/>
+    <g transform="translate(16, 16) scale(2)">
+      <path d="M24 8.5H11.5C9 8.5 7 10.5 7 13" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M7 13C7 15 8.5 16 11 16H21C23.5 16 25 17 25 19" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M25 19C25 21.5 23 23.5 20.5 23.5H8" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="24" cy="8.5" r="1.2" fill="#FFFFFF"/>
+    </g>
+  </g>
+
+  <!-- Brand Name -->
+  <text x="216" y="168" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Geist', sans-serif" font-size="36" font-weight="600" fill="#171717" letter-spacing="-1">SolveSpace Technologies</text>
+  <text x="218" y="196" font-family="monospace" font-size="14" font-weight="500" fill="#777777" letter-spacing="2">DIGITAL ENGINEERING STUDIO • SOLVESPACE.ONLINE</text>
+
+  <!-- Headline -->
+  <text x="100" y="310" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Geist', sans-serif" font-size="58" font-weight="500" fill="#171717" letter-spacing="-2">We Architect &amp; Build</text>
+  <text x="100" y="375" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Geist', sans-serif" font-size="58" font-weight="500" fill="#171717" letter-spacing="-2">Production Software.</text>
+
+  <!-- Description -->
+  <text x="100" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Geist', sans-serif" font-size="22" font-weight="400" fill="#777777">Cloud Infrastructure • High-Speed Web Platforms • Native Android • Scalable APIs</text>
+
+  <!-- Bottom Pills -->
+  <g transform="translate(100, 495)">
+    <rect x="0" y="0" width="170" height="42" rx="8" fill="#F7F6F2" stroke="#E7E7E7" stroke-width="1.5"/>
+    <text x="85" y="26" text-anchor="middle" font-family="monospace" font-size="13" font-weight="500" fill="#171717">AWS &amp; DEVOPS</text>
+
+    <rect x="185" y="0" width="190" height="42" rx="8" fill="#F7F6F2" stroke="#E7E7E7" stroke-width="1.5"/>
+    <text x="280" y="26" text-anchor="middle" font-family="monospace" font-size="13" font-weight="500" fill="#171717">REACT &amp; NEXT.JS</text>
+
+    <rect x="390" y="0" width="220" height="42" rx="8" fill="#F7F6F2" stroke="#E7E7E7" stroke-width="1.5"/>
+    <text x="500" y="26" text-anchor="middle" font-family="monospace" font-size="13" font-weight="500" fill="#171717">KOTLIN 120 FPS</text>
+
+    <rect x="625" y="0" width="220" height="42" rx="8" fill="#F7F6F2" stroke="#E7E7E7" stroke-width="1.5"/>
+    <text x="735" y="26" text-anchor="middle" font-family="monospace" font-size="13" font-weight="500" fill="#171717">POSTGRESQL &amp; REDIS</text>
+  </g>
+
+  <!-- Direct Founder Badge on Right -->
+  <g transform="translate(870, 110)">
+    <rect width="210" height="40" rx="20" fill="#171717"/>
+    <circle cx="22" cy="20" r="4" fill="#10B981"/>
+    <text x="115" y="25" text-anchor="middle" font-family="monospace" font-size="12" font-weight="500" fill="#FFFFFF" letter-spacing="1">FOUNDER-LED</text>
+  </g>
+</svg>

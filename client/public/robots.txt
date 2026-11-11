@@ -1,0 +1,8 @@
+# robots.txt for https://solvespace.online/
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /inquiries
+
+# Search engine sitemap location
+Sitemap: https://solvespace.online/sitemap.xml

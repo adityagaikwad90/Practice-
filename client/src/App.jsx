@@ -19,8 +19,15 @@ import InquiriesView from './components/views/InquiriesView';
 import './App.css';
 
 export default function App() {
-  // Navigation & Core State
-  const [activeTab, setActiveTab] = useState('home');
+  // Navigation & Core State — initialize from URL hash if present
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      const validTabs = ['home', 'services', 'work', 'about', 'team', 'careers', 'estimator', 'contact', 'inquiries'];
+      if (validTabs.includes(hash)) return hash;
+    }
+    return 'home';
+  });
   const [initialLoading, setInitialLoading] = useState(() => {
     try {
       return !sessionStorage.getItem('solvespace_welcomed');
@@ -122,7 +129,33 @@ export default function App() {
     fetchInitialData();
   }, []);
 
+  // SEO Title & URL Hash Synchronization
   useEffect(() => {
+    const titles = {
+      home: 'SolveSpace Technologies — Digital Engineering Studio',
+      services: 'Engineering Services & Deliverables — SolveSpace Technologies',
+      work: 'Featured Work & Production Architecture — SolveSpace Technologies',
+      about: 'About the Studio & Founding Engineers — SolveSpace Technologies',
+      team: 'About the Studio & Founding Engineers — SolveSpace Technologies',
+      careers: 'Careers & Engineering Openings — SolveSpace Technologies',
+      estimator: 'Project Scope & Investment Estimator — SolveSpace Technologies',
+      contact: 'Start a Project — SolveSpace Technologies',
+      inquiries: 'Client Portal & Telemetry — SolveSpace Technologies'
+    };
+
+    if (titles[activeTab]) {
+      document.title = titles[activeTab];
+    }
+
+    if (typeof window !== 'undefined') {
+      const targetHash = activeTab === 'home' ? window.location.pathname : `#${activeTab}`;
+      if (window.location.hash !== targetHash && activeTab !== 'home') {
+        window.history.replaceState(null, '', `#${activeTab}`);
+      } else if (activeTab === 'home' && window.location.hash) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+    }
+
     if (activeTab === 'inquiries') {
       fetchInquiries();
     }
