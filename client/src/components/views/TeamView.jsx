@@ -31,7 +31,7 @@ export default function TeamView({ setActiveTab }) {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
+    <div className="studio-page team-page max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
       {/* Editorial Header */}
       <div className="space-y-6">
         <span className="eyebrow-minimal block">ABOUT THE STUDIO</span>

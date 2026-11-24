@@ -40,7 +40,7 @@ export default function EstimatorView({
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-16 page-transition">
+    <div className="studio-page estimator-page max-w-4xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-16 page-transition">
       {/* Header */}
       <div className="space-y-4">
         <span className="eyebrow-minimal block">COST ESTIMATOR</span>

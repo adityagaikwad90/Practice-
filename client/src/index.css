@@ -414,3 +414,69 @@ body { background: #fff; color: var(--ss-ink); }
 .home-page section > .bg-\[\#171717\] {background:linear-gradient(135deg,#211d3b,#37305f 68%,#4c4581);border-radius:24px}
 .site-nav {border-color:#eceaf0;box-shadow:0 5px 25px #25203e08}.site-nav .btn-primary-mono {background:#6558e8;border-color:#6558e8;border-radius:999px}.site-footer {background:#faf9fc;border-color:#eceaf0}.site-footer .eyebrow-minimal {color:#6558e8}
 @media(max-width:640px) { .home-hero-panel {padding:2rem 1.4rem;border-radius:22px;gap:2rem}.home-hero-panel h1 {font-size:3.15rem}.studio-preview {padding:12px 2px}.preview-float-top{right:-2px}.preview-float-bottom{left:-4px}.preview-content{min-height:300px}.preview-main{padding:18px 13px}.preview-cards>div{padding:9px}.home-hero-panel p{font-size:1rem} }
+
+/* Shared visual language for the studio's inner pages */
+.studio-page {
+  --page-accent: #6558e8;
+  --page-ink: #211e3b;
+  --page-muted: #706f82;
+  --page-border: #e8e6ee;
+  width: min(100%, 1200px);
+  color: var(--page-ink);
+}
+.studio-page .eyebrow-minimal { color: var(--page-accent); }
+.studio-page h1 { color: var(--page-ink) !important; font-size: clamp(2.8rem, 5.6vw, 4.7rem); letter-spacing: -.065em; line-height: 1.02; }
+.studio-page h2,.studio-page h3 { color: var(--page-ink); letter-spacing: -.04em; }
+.studio-page p { line-height: 1.75; }
+.studio-page .btn-primary-mono { color:white; background:var(--page-accent); border-color:var(--page-accent); border-radius:999px; box-shadow:0 7px 18px #6558e820; }
+.studio-page .btn-primary-mono:hover { background:#5043d4; border-color:#5043d4; }
+.studio-page .btn-secondary-mono { border-radius:999px; border-color:var(--page-border); }
+.studio-page :is(input,select,textarea) { border-radius:10px !important; border-color:var(--page-border) !important; }
+.studio-page :is(input,select,textarea):focus { border-color:#9b91f5 !important; box-shadow:0 0 0 3px #6558e817; }
+.studio-page :is(button,a):focus-visible { outline:3px solid #8c81f6; outline-offset:3px; }
+.studio-page .mono-card,.studio-page .mono-card-warm { border-color:var(--page-border); border-radius:16px; }
+.studio-page .mono-card-warm { background:linear-gradient(135deg,#f7f5ff,#f3f6ed); }
+
+.services-page > div:first-child,.work-page > div:first-child,.careers-page > div:first-child,.team-page > div:first-child,.estimator-page > div:first-child {
+  padding:clamp(1.5rem,4vw,3.25rem);
+  border:1px solid #eceaf2;
+  border-radius:24px;
+  background:radial-gradient(ellipse at 90% 5%,#c9f36a2e,transparent 34%),linear-gradient(125deg,#faf9ff,#f4f3fa 70%,#f1f4eb);
+}
+.services-page .service-detail-card { padding:clamp(1.4rem,3vw,2.25rem); border:1px solid var(--page-border); border-radius:18px; background:white; box-shadow:0 7px 24px #29234a08; }
+.services-page .service-detail-card:hover { border-color:#bdb5ff; box-shadow:0 14px 32px #392a7a10; }
+.services-page .service-detail-card > p { color:#535166; }
+.services-page .service-detail-card [class*="rounded-[4px]"] { background:#f1efff; color:#5043bb; border-color:#e5e1ff; border-radius:999px; }
+
+.work-page > div:first-child { margin-bottom:-2rem; }
+.work-page .work-project-card { padding:clamp(1.4rem,3vw,2.25rem); border:1px solid var(--page-border); border-radius:18px; background:white; box-shadow:0 7px 24px #29234a08; }
+.work-page .work-project-card:hover { border-color:#bdb5ff; box-shadow:0 14px 32px #392a7a12; transform:translateY(-2px); }
+.work-page .work-project-card [class*="rounded-[4px]"] { background:#f1efff; color:#5043bb; border-color:#e5e1ff; border-radius:999px; }
+.work-page button[class*="bg-[#171717]"] { background:var(--page-accent); }
+
+.careers-page .career-job-card { padding:1.5rem; border:1px solid var(--page-border); border-radius:16px; background:#fff; box-shadow:0 6px 20px #29234a08; transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
+.careers-page .career-job-card:hover { transform:translateY(-2px); border-color:#bdb5ff; box-shadow:0 13px 30px #392a7a10; }
+.careers-page .career-job-card [class*="rounded-[4px]"] { background:#f1efff; color:#5043bb; border-color:#e5e1ff; border-radius:999px; }
+.careers-page button[class*="bg-[#171717]"] { background:var(--page-accent); }
+
+.contact-page > div:first-child { padding:clamp(1.5rem,4vw,2.75rem); margin-bottom:-1rem; border:1px solid #eceaf2; border-radius:24px; background:radial-gradient(ellipse at 100% 0%,#c9f36a33,transparent 36%),linear-gradient(125deg,#faf9ff,#f4f3fa); }
+.contact-page form { padding:clamp(1.25rem,4vw,2rem); border:1px solid var(--page-border); border-radius:18px; background:#fff; box-shadow:0 10px 30px #29234a0b; }
+.contact-page form > div:first-child { row-gap:1.25rem; }
+.contact-page > div:last-child { border-color:var(--page-border); }
+
+.team-page > div:not(:first-child) { padding:clamp(1.4rem,3vw,2.4rem); border:1px solid var(--page-border); border-radius:18px; background:white; }
+.team-page .grid > div { border-color:#e4e1f1; }
+.team-page .grid > div:hover { border-color:#8276e9; }
+.estimator-page > div:nth-child(2) { padding:clamp(1.25rem,4vw,2.5rem); border:1px solid var(--page-border); border-radius:20px; background:#fff; box-shadow:0 10px 30px #29234a0a; }
+.estimator-page button[class*="rounded-md"][class*="border"] { border-radius:13px; }
+.estimator-page button[class*="border-[#171717]"] { background:#f2f0ff; border-color:#8579ed; box-shadow:inset 0 0 0 1px #8579ed; }
+.estimator-page > div:nth-child(2) > div:last-child { background:linear-gradient(125deg,#f1efff,#f2f8e9); border-color:#e4e0fa; border-radius:16px; }
+
+.inquiries-page .mono-card { border-radius:14px; }
+.inquiries-page button[class*="bg-[#171717]"] { background:var(--page-accent); }
+@media(max-width:640px) {
+  .studio-page { padding-top:2.5rem; padding-bottom:3rem; }
+  .studio-page h1 { font-size:2.8rem; }
+  .services-page > div:first-child,.work-page > div:first-child,.careers-page > div:first-child,.team-page > div:first-child,.estimator-page > div:first-child,.contact-page > div:first-child { border-radius:18px; }
+  .services-page .service-detail-card,.work-page .work-project-card,.careers-page .career-job-card { padding:1.15rem; border-radius:14px; }
+}

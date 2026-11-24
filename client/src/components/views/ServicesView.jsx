@@ -70,7 +70,7 @@ export default function ServicesView({ setFormService, setActiveTab }) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
+    <div className="studio-page services-page max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
       {/* Editorial Header */}
       <div className="space-y-6">
         <span className="eyebrow-minimal block">ENGINEERING SERVICES</span>
@@ -87,7 +87,7 @@ export default function ServicesView({ setFormService, setActiveTab }) {
         {serviceCategories.map((service, index) => (
           <div
             key={service.id}
-            className="reveal-init border-t border-[#E7E7E7] hover:border-[#171717] pt-12 space-y-8 transition-colors duration-300"
+            className="service-detail-card reveal-init border-t border-[#E7E7E7] hover:border-[#171717] pt-12 space-y-8 transition-colors duration-300"
           >
             <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4">
               <div>

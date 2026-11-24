@@ -410,7 +410,7 @@ export default function CareersView({ setActiveTab }) {
   });
 
   return (
-    <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-16 page-transition">
+    <div className="studio-page careers-page max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-16 page-transition">
       {/* 1. APPLICATION CONFIRMATION */}
       {currentView === 'confirmation' && submissionSuccessData && (
         <div className="space-y-8 max-w-xl mx-auto text-left">
@@ -703,7 +703,7 @@ export default function CareersView({ setActiveTab }) {
             {filteredJobs.map((job) => (
               <div
                 key={job.id}
-                className="border-t border-[#E7E7E7] pt-8 space-y-4"
+                className="career-job-card border-t border-[#E7E7E7] pt-8 space-y-4"
               >
                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
                   <div>

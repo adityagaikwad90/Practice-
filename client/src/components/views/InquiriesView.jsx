@@ -28,7 +28,7 @@ export default function InquiriesView({
   });
 
   return (
-    <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-12 page-transition">
+    <div className="studio-page inquiries-page max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-12 page-transition">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 border-b border-[#E7E7E7] pb-6">
         <div>

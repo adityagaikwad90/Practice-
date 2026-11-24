@@ -88,7 +88,7 @@ export default function WorkView({ setActiveTab }) {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
+    <div className="studio-page work-page max-w-5xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-24 page-transition">
       {/* Editorial Header with Typography Reveal */}
       <div className="space-y-6">
         <span className="eyebrow-minimal block">PORTFOLIO</span>
@@ -138,7 +138,7 @@ export default function WorkView({ setActiveTab }) {
               animate={{ opacity: 1, y: 0 }}
               exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="border-t border-[#E7E7E7] hover:border-[#171717] pt-12 space-y-8 transition-colors duration-300 group"
+              className="work-project-card border-t border-[#E7E7E7] hover:border-[#171717] pt-12 space-y-8 transition-colors duration-300 group"
             >
               <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
                 <div>

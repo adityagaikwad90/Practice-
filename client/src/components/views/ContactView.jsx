@@ -41,7 +41,7 @@ export default function ContactView({
     return standardBudgetOptions;
   }, [formBudget]);
   return (
-    <div className="max-w-2xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-12 page-transition">
+    <div className="studio-page contact-page max-w-2xl mx-auto px-6 sm:px-10 py-16 sm:py-24 space-y-12 page-transition">
       {/* Editorial Header */}
       <div className="space-y-4">
         <span className="eyebrow-minimal block">CONTACT & ENQUIRY</span>
