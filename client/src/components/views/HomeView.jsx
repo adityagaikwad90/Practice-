@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../ui/Button';
-import HeroVisual3D from '../ui/HeroVisual3D';
 import TypographyReveal from '../ui/TypographyReveal';
 import IdeaToProductMotion from '../ui/IdeaToProductMotion';
 import EngineeringBlueprint from '../ui/EngineeringBlueprint';
@@ -176,12 +175,12 @@ export default function HomeView({ setActiveTab }) {
   ];
 
   return (
-    <div className="space-y-24 sm:space-y-36 pb-20 page-transition">
+    <div className="home-page space-y-24 sm:space-y-36 pb-20 page-transition">
       {/* =========================================================================
           SECTION 1 — HERO: CLEAR STARTUP VALUE PROPOSITION
          ========================================================================= */}
-      <section className="pt-8 sm:pt-16 px-6 sm:px-10 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <section className="home-hero pt-8 sm:pt-16 px-6 sm:px-10 max-w-7xl mx-auto">
+        <div className="home-hero-panel grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Clear Value Prop & CTAs */}
           <div className="lg:col-span-7 space-y-6 text-left">
             {/* Startup Status Pill */}
@@ -189,7 +188,7 @@ export default function HomeView({ setActiveTab }) {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
-              className="inline-flex items-center gap-2 px-3 py-1 bg-[#F7F6F2] border border-[#E7E7E7] rounded-full text-xs font-mono text-[#171717]"
+              className="hero-kicker inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>DIRECT FOUNDER ENGINEERING STUDIO</span>
@@ -198,7 +197,7 @@ export default function HomeView({ setActiveTab }) {
             {/* Editorial Headline */}
             <TypographyReveal
               as="h1"
-              lines={['We Architect & Build', 'Production Software.']}
+              lines={['From ambitious idea', 'to shipped product.']}
               delay={0.15}
               stagger={0.15}
               className="text-4xl sm:text-6xl lg:text-[72px] font-normal tracking-tight text-[#171717] leading-[1.05] font-heading"
@@ -211,7 +210,7 @@ export default function HomeView({ setActiveTab }) {
               transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="text-base sm:text-lg text-[#777777] max-w-xl font-normal leading-relaxed"
             >
-              SolveSpace Technologies partners with founders and scaling teams to engineer production-ready <strong className="text-[#171717] font-medium">Cloud Infrastructure</strong>, <strong className="text-[#171717] font-medium">Web Platforms</strong>, <strong className="text-[#171717] font-medium">Native Android Apps</strong>, and <strong className="text-[#171717] font-medium">Backend APIs</strong> — delivered in weeks, not months.
+              Your technical co-founders for the parts that matter. We design, build and launch thoughtful digital products, cloud platforms and mobile apps — with senior engineers beside you from day one.
             </motion.p>
 
             {/* CTAs */}
@@ -228,15 +227,15 @@ export default function HomeView({ setActiveTab }) {
                 iconPosition="right"
                 onClick={() => setActiveTab('contact')}
               >
-                Start a Project
+                Tell us what you’re building
               </Button>
 
               <Button
                 variant="secondary"
                 size="lg"
-                onClick={() => setActiveTab('estimator')}
+                onClick={() => setActiveTab('services')}
               >
-                Instant Cost Estimator
+                Explore the studio
               </Button>
             </motion.div>
 
@@ -248,13 +247,26 @@ export default function HomeView({ setActiveTab }) {
               className="text-xs font-mono text-[#777777] flex items-center gap-2 pt-1"
             >
               <Clock className="w-3.5 h-3.5 text-[#171717]" />
-              <span>Founders review and respond to inquiries within 24 hours</span>
+              <span>Small senior team · Clear weekly progress · You own the code</span>
             </motion.div>
           </div>
 
           {/* Right Column: Abstract Chrome 3D Sculpture */}
           <div className="lg:col-span-5 flex items-center justify-center">
-            <HeroVisual3D />
+            <div className="studio-preview" aria-label="A preview of a product dashboard being built">
+              <div className="preview-window">
+                <div className="preview-top"><span className="preview-dots"><i/><i/><i/></span><span>your-next-big-idea.app</span><span className="preview-live"><i/> LIVE PREVIEW</span></div>
+                <div className="preview-content">
+                  <div className="preview-sidebar"><b>◈</b><span className="active"/><span/><span/><span/></div>
+                  <div className="preview-main"><div className="preview-greeting"><span>MONDAY, MAY 20</span><b>Good things are taking shape.</b></div>
+                    <div className="preview-cards"><div><span>ACTIVE USERS</span><b>2,840 <em>↗ 18%</em></b><div className="sparkline"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div></div><div><span>PROJECT HEALTH</span><b><strong>On track</strong></b><div className="health-bar"><i/></div></div></div>
+                    <div className="preview-list"><div className="preview-list-head"><b>Launch roadmap</b><span>View all ↗</span></div><div><i className="done">✓</i><span>Product strategy</span><small>COMPLETE</small></div><div><i className="done">✓</i><span>Design system</span><small>COMPLETE</small></div><div><i className="current">◉</i><span>Build & iterate</span><small>IN PROGRESS</small></div></div>
+                  </div>
+                </div>
+              </div>
+              <div className="preview-float preview-float-top"><span>✳</span><div><b>Built together</b><small>Founder-led, always</small></div></div>
+              <div className="preview-float preview-float-bottom"><span>↗</span><div><b>Ready to scale</b><small>From day one</small></div></div>
+            </div>
           </div>
         </div>
 
@@ -263,7 +275,7 @@ export default function HomeView({ setActiveTab }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.7 }}
-          className="mt-14 pt-8 border-t border-[#E7E7E7] grid grid-cols-2 md:grid-cols-4 gap-6 text-left"
+          className="hero-metrics mt-14 pt-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-left"
         >
           <div className="space-y-1">
             <div className="text-2xl sm:text-3xl font-medium text-[#171717] font-heading">

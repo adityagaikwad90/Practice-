@@ -25,7 +25,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
   return (
     <>
       <nav
-        className={`sticky top-0 z-40 backdrop-blur-md border-b transition-all duration-300 px-6 sm:px-10 ${
+        className={`site-nav sticky top-0 z-40 backdrop-blur-md border-b transition-all duration-300 px-6 sm:px-10 ${
           scrolled
             ? 'bg-white/95 border-[#E7E7E7] py-3.5 shadow-[0_1px_4px_rgba(0,0,0,0.03)]'
             : 'bg-white/80 border-[#E7E7E7] py-4'

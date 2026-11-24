@@ -4,7 +4,7 @@ import LogoMonogram from '../ui/LogoMonogram';
 
 export default function Footer({ setActiveTab }) {
   return (
-    <footer className="border-t border-[#E7E7E7] bg-white text-[#777777] pt-16 pb-12 px-6 sm:px-10 font-sans">
+    <footer className="site-footer border-t border-[#E7E7E7] bg-white text-[#777777] pt-16 pb-12 px-6 sm:px-10 font-sans">
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
